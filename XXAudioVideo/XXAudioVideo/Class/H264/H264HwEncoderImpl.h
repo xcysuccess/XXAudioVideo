@@ -13,11 +13,12 @@
 
 - (void)getSpsPps:(NSData*)sps pps:(NSData*)pps;
 - (void)getEncodedData:(NSData*)data isKeyFrame:(BOOL)isKeyFrame;
+
 @end
 
 @interface H264HwEncoderImpl : NSObject
 
-- (instancetype) initWithConfiguration:(size_t)width  height:(size_t)height;
+- (instancetype) initWithConfiguration;
 
 - (void) encode:(CMSampleBufferRef )sampleBuffer;
 
