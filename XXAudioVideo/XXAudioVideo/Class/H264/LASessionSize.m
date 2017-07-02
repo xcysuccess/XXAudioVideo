@@ -10,6 +10,14 @@
 #import "LAScreenEx.h"
 @implementation LASessionSize
 
+-(instancetype)init{
+    if(self = [super init]){
+        _h264outputWidth = 600;
+        _h264outputHeight = 800;
+    }
+    return self;
+}
+
 + (instancetype)sharedInstance
 {
     static LASessionSize *instance;

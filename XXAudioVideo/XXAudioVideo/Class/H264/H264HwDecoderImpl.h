@@ -33,5 +33,5 @@ typedef enum{
 - (instancetype) initWithConfiguration;
 
 -(void)decodeNalu:(uint8_t *)data withSize:(uint32_t)dataLen;
-
+//-(void) decodeNalu:(uint8_t *)frame withSize:(uint32_t)frameSize;
 @end

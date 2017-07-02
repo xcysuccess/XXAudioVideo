@@ -76,29 +76,57 @@
     });
 }
 //http://km.oa.com/group/16071/articles/show/288149?kmref=search&from_page=2&no=5
+//- (void) encode:(CMSampleBufferRef )sampleBuffer
+//{
+//    dispatch_sync(aQueue, ^{
+//        frameID++;
+//
+//        CVImageBufferRef imageBuffer = (CVImageBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);
+//        // 帧时间，如果不设置会导致时间轴过长。
+//        CMTime presentationTimeStamp = CMTimeMake(frameID, 1000);
+//        VTEncodeInfoFlags flags;
+//
+//        OSStatus statusCode = VTCompressionSessionEncodeFrame(EncodingSession,
+//                                                              imageBuffer,
+//                                                              presentationTimeStamp,
+//                                                              kCMTimeInvalid,
+//                                                              NULL, NULL, &flags);
+//        if (statusCode != noErr) {
+//            NSLog(@"H264: VTCompressionSessionEncodeFrame failed with %d", (int)statusCode);
+//            VTCompressionSessionInvalidate(EncodingSession);
+//            CFRelease(EncodingSession);
+//            EncodingSession = NULL;
+//            return;
+//        }
+//        NSLog(@"H264: VTCompressionSessionEncodeFrame Success");
+//    });
+//}
 - (void) encode:(CMSampleBufferRef )sampleBuffer
 {
+    if (EncodingSession==nil||EncodingSession==NULL)
+    {
+        return;
+    }
     dispatch_sync(aQueue, ^{
         frameID++;
-        
         CVImageBufferRef imageBuffer = (CVImageBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);
-        // 帧时间，如果不设置会导致时间轴过长。
         CMTime presentationTimeStamp = CMTimeMake(frameID, 1000);
         VTEncodeInfoFlags flags;
-        
         OSStatus statusCode = VTCompressionSessionEncodeFrame(EncodingSession,
                                                               imageBuffer,
                                                               presentationTimeStamp,
                                                               kCMTimeInvalid,
                                                               NULL, NULL, &flags);
-        if (statusCode != noErr) {
-            NSLog(@"H264: VTCompressionSessionEncodeFrame failed with %d", (int)statusCode);
-            VTCompressionSessionInvalidate(EncodingSession);
-            CFRelease(EncodingSession);
-            EncodingSession = NULL;
-            return;
+        if (statusCode != noErr)
+        {
+            if (EncodingSession!=nil||EncodingSession!=NULL)
+            {
+                VTCompressionSessionInvalidate(EncodingSession);
+                CFRelease(EncodingSession);
+                EncodingSession = NULL;
+                return;
+            }
         }
-        NSLog(@"H264: VTCompressionSessionEncodeFrame Success");
     });
 }
 
