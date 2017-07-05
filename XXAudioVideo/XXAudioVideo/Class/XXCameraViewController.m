@@ -9,6 +9,7 @@
 #import "XXCameraViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "OSMOBeautyMenuView.h"
+#import "VideoFileParser.h"
 
 #import "GPUImageCustomFastUploadDataSource.h"
 #import "OSMOGPUImageBeautyFilter.h"
@@ -155,80 +156,51 @@
 
 - (void)getSpsPps:(NSData*)sps pps:(NSData*)pps
 {
+    NSLog(@"getSpsPps %d %d", (int)[sps length], (int)[pps length]);
+
     const char bytes[] = "\x00\x00\x00\x01";
-    size_t length = (sizeof bytes) - 1;
+    size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
     NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
-    //发sps
+    [_fileHandle writeData:ByteHeader];
+    [_fileHandle writeData:sps];
+    [_fileHandle writeData:ByteHeader];
+    [_fileHandle writeData:pps];
+
+    //--h264 decode sps
     NSMutableData *h264Data = [[NSMutableData alloc] init];
     [h264Data appendData:ByteHeader];
     [h264Data appendData:sps];
     [_h264Decoder decodeNalu:(uint8_t *)[h264Data bytes] withSize:(uint32_t)h264Data.length];
-    //发pps
+
+    //--h264 decode pps
     [h264Data resetBytesInRange:NSMakeRange(0, [h264Data length])];
     [h264Data setLength:0];
     [h264Data appendData:ByteHeader];
     [h264Data appendData:pps];
-    
     [_h264Decoder decodeNalu:(uint8_t *)[h264Data bytes] withSize:(uint32_t)h264Data.length];
-    
-    return;
-//    NSLog(@"getSpsPps %d %d", (int)[sps length], (int)[pps length]);
-//
-//    const char bytes[] = "\x00\x00\x00\x01";
-//    size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
-//    NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
-//    [_fileHandle writeData:ByteHeader];
-//    [_fileHandle writeData:sps];
-//    [_fileHandle writeData:ByteHeader];
-//    [_fileHandle writeData:pps];
-//
-//    //--h264 decode sps
-//    NSMutableData *h264Data = [[NSMutableData alloc] init];
-//    [h264Data appendData:ByteHeader];
-//    [h264Data appendData:sps];
-//    [_h264Decoder decodeNalu:(uint8_t *)[h264Data bytes] withSize:(uint32_t)h264Data.length];
-//
-//    //--h264 decode pps
-//    [h264Data resetBytesInRange:NSMakeRange(0, [h264Data length])];
-//    [h264Data setLength:0];
-//    [h264Data appendData:ByteHeader];
-//    [h264Data appendData:pps];
-//    [_h264Decoder decodeNalu:(uint8_t *)[h264Data bytes] withSize:(uint32_t)h264Data.length];
 }
 
 - (void)getEncodedData:(NSData*)data isKeyFrame:(BOOL)isKeyFrame
 {
-    const char bytes[] = "\x00\x00\x00\x01";
-    size_t length = (sizeof bytes) - 1;
-    NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
-    NSMutableData *h264Data = [[NSMutableData alloc] init];
-    [h264Data appendData:ByteHeader];
-    [h264Data appendData:data];
-    [_h264Decoder decodeNalu:(uint8_t *)[h264Data bytes] withSize:(uint32_t)h264Data.length];
-    return;
-//    NSLog(@"getEncodedData %d", (int)[data length]);
-//
-//    if (_fileHandle != NULL)
-//    {
-//        const char bytes[] = "\x00\x00\x00\x01";
-//        size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
-//        NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
-//        [_fileHandle writeData:ByteHeader];
-//        [_fileHandle writeData:data];
-//
-//        //--h264 decode data
-//        NSMutableData *h264Data = [[NSMutableData alloc] init];
-//        [h264Data appendData:ByteHeader];
-//        [h264Data appendData:data];
-//        [_h264Decoder decodeNalu:(uint8_t *)[h264Data bytes] withSize:(uint32_t)h264Data.length];
-//    }
+    if (_fileHandle != NULL)
+    {
+        const char bytes[] = "\x00\x00\x00\x01";
+        size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
+        NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
+        [_fileHandle writeData:ByteHeader];
+        [_fileHandle writeData:data];
+    
+        //--h264 decode data
+        NSMutableData *h264Data = [[NSMutableData alloc] init];
+        [h264Data appendData:ByteHeader];
+        [h264Data appendData:data];
+        [_h264Decoder decodeNalu:(uint8_t *)[h264Data bytes] withSize:(uint32_t)h264Data.length];
+    }
 }
 
 #pragma mark- H264HwEncoderImplDelegate
 -(void) startEncodeButtonClick{
     NSLog(@"%s",__func__);
-    _isStartedEncoded = YES;
-    return;
     
     // 获取系统当前时间
     NSDate * date = [NSDate date];
@@ -245,7 +217,7 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
 //    _h264File = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.h264",na]];
-    _h264File = [documentsDirectory stringByAppendingPathComponent:@"test_encode.h264"];
+    _h264File = [documentsDirectory stringByAppendingPathComponent:@"test_tomxiang.h264"];
     
     [fileManager removeItemAtPath:_h264File error:nil];
     [fileManager createFileAtPath:_h264File contents:nil attributes:nil];
@@ -253,16 +225,24 @@
     // Open the file using POSIX as this is anyway a test application
     //fd = open([h264File UTF8String], O_RDWR);
     _fileHandle = [NSFileHandle fileHandleForWritingAtPath:_h264File];
+    _isStartedEncoded = YES;
+    
 }
 
 -(void) stopEncodeButtonClick{
     NSLog(@"%s",__func__);
     _isStartedEncoded = NO;
     [_h264Encoder stopEncoder];
+    [_h264Decoder stopDecoder];
     [_fileHandle closeFile];
     _fileHandle = NULL;
 }
 
+- (void)closeVCClick{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 - (void)setRelativeVideoOrientation {
     switch ([[UIDevice currentDevice] orientation]) {
         case UIInterfaceOrientationPortrait:

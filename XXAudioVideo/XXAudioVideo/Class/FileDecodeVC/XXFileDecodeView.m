@@ -1,21 +1,21 @@
 //
-//  OSMOBeautyMenuView.m
+//  XXFileDecodeView.m
 //  Phantom3
 //
 //  Created by tomxiang on 24/10/2016.
 //  Copyright © 2016 DJIDevelopers.com. All rights reserved.
 //
 
-#import "OSMOBeautyMenuView.h"
+#import "XXFileDecodeView.h"
 #import "Masonry.h"
 
-@interface OSMOBeautyMenuView()
+@interface XXFileDecodeView()
 @property(nonatomic,strong) UIButton *buttonStart;
 @property(nonatomic,strong) UIButton *buttonStop;
 @property(nonatomic,strong) UIButton *buttonStyleClose;
 @end
 
-@implementation OSMOBeautyMenuView
+@implementation XXFileDecodeView
 
 -(instancetype)initWithFrame:(CGRect)frame{
     if(self = [super initWithFrame:frame]){
@@ -66,7 +66,7 @@
 }
 
 -(void) initViews{
-  
+    
     self.buttonStart = [self createButton:@"StartEncode" tag:1];
     self.buttonStop = [self createButton:@"StopEncode" tag:2];
     self.buttonStyleClose = [self createButton:@"Close" tag:3];
@@ -82,14 +82,14 @@
 {
     switch(aBt.tag){
         case 1:{
-            if (self.delegate && [self.delegate respondsToSelector:@selector(startEncodeButtonClick)]) {
-                [self.delegate startEncodeButtonClick];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(startDecodeButtonClick)]) {
+                [self.delegate startDecodeButtonClick];
             }
         }
             break;
         case 2:{
-            if (self.delegate && [self.delegate respondsToSelector:@selector(stopEncodeButtonClick)]) {
-                [self.delegate stopEncodeButtonClick];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(stopDecodeButtonClick)]) {
+                [self.delegate stopDecodeButtonClick];
             }
         }
             break;
@@ -98,6 +98,7 @@
                 [self.delegate closeVCClick];
             }
         }
+            break;
     }
 }
 

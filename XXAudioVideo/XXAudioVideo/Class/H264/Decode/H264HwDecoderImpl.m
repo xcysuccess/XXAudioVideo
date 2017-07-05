@@ -8,13 +8,11 @@
 
 #import "H264HwDecoderImpl.h"
 #import "LAScreenEx.h"
+#import "VideoFileParser.h"
+#import "LASessionSize.h"
 
 @import VideoToolbox;
 @import AVFoundation;
-
-@implementation NALUnit
-
-@end
 
 @interface H264HwDecoderImpl()
 {
@@ -39,6 +37,32 @@
     }
     return self;
 }
+-(void)dealloc{
+    [self stopDecoder];
+}
+
+- (void) stopDecoder{
+    if(_deocderSession) {
+        VTDecompressionSessionInvalidate(_deocderSession);
+        CFRelease(_deocderSession);
+        _deocderSession = NULL;
+    }
+    
+    if(_decoderFormatDescription) {
+        CFRelease(_decoderFormatDescription);
+        _decoderFormatDescription = NULL;
+    }
+    if (_sps) {
+        free(_sps);
+        _sps = NULL;
+    }
+    if(_pps){
+        free(_pps);
+        _pps = NULL;
+    }
+    _spsSize = _ppsSize = 0;
+}
+
 
 - (BOOL) initH264Decoder{
     if (_deocderSession) {
@@ -58,8 +82,8 @@
                                                            //硬解必须是 kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
                                                            //                                                           或者是kCVPixelFormatType_420YpCbCr8Planar
                                                            //因为iOS是  nv12  其他是nv21
-                                                           (id)kCVPixelBufferWidthKey : [NSNumber numberWithInt:600],
-                                                           (id)kCVPixelBufferHeightKey : [NSNumber numberWithInt:800],
+                                                           (id)kCVPixelBufferWidthKey : @([LASessionSize sharedInstance].h264outputWidth),
+                                                           (id)kCVPixelBufferHeightKey : @([LASessionSize sharedInstance].h264outputHeight),
                                                            //这里款高和编码反的
                                                            (id)kCVPixelBufferOpenGLCompatibilityKey : [NSNumber numberWithBool:YES]
                                                            };
@@ -92,6 +116,7 @@ static void didDecompress( void *decompressionOutputRefCon, void *sourceFrameRef
     {
         [decoder.delegate displayDecodedFrame:pixelBuffer];
     }
+    
 }
 
 -(CVPixelBufferRef) decode:(NALUnit *) nalUnit{
@@ -142,150 +167,53 @@ static void didDecompress( void *decompressionOutputRefCon, void *sourceFrameRef
     return outputPixelBuffer;
 }
 
--(void) decodeNalu:(uint8_t *)frame withSize:(uint32_t)frameSize
-{
-    //    NSLog(@">>>>>>>>>>开始解码");
-    int nalu_type = (frame[4] & 0x1F);
-    CVPixelBufferRef pixelBuffer = NULL;
-    uint32_t nalSize = (uint32_t)(frameSize - 4);
+-(void)decodeNalu:(uint8_t *)data withSize:(uint32_t)dataLen{
+    int nalType = data[4] & 0x1F;
+    
+    NALUnit *nalUnit = [NALUnit new];
+    nalUnit.data = data;
+    nalUnit.size = dataLen;
+    nalUnit.type = nalType;
+    
+    //真实长度,需要把前四个字节 替换成 数据长度，
+    //sps和pps的前四字节没有长度信息，所以需要_spsSize=nalUnit.size-4.
+    uint32_t nalSize = (uint32_t)(dataLen- 4);
     uint8_t *pNalSize = (uint8_t*)(&nalSize);
-    frame[0] = *(pNalSize + 3);
-    frame[1] = *(pNalSize + 2);
-    frame[2] = *(pNalSize + 1);
-    frame[3] = *(pNalSize);
+    nalUnit.data[0] = *(pNalSize + 3);
+    nalUnit.data[1] = *(pNalSize + 2);
+    nalUnit.data[2] = *(pNalSize + 1);
+    nalUnit.data[3] = *(pNalSize);
+    
+    
+    CVPixelBufferRef pixelBuffer = NULL;
     //传输的时候。关键帧不能丢数据 否则绿屏   B/P可以丢  这样会卡顿
-    switch (nalu_type)
-    {
-        case 0x05:
-            //           NSLog(@"nalu_type:%d Nal type is IDR frame",nalu_type);  //关键帧
-            if([self initH264Decoder])
-            {
-                pixelBuffer = [self decode:frame withSize:frameSize];
-            }
-            break;
-        case 0x07:
-            //           NSLog(@"nalu_type:%d Nal type is SPS",nalu_type);   //sps
-            _spsSize = frameSize - 4;
+    switch (nalType){
+        case NALUTypeSPS:{//0x07
+            _spsSize = nalUnit.size - 4;
             _sps = malloc(_spsSize);
-            memcpy(_sps, &frame[4], _spsSize);
+            memcpy(_sps, nalUnit.data + 4, _spsSize);
+        }
             break;
-        case 0x08:
-        {
-            //            NSLog(@"nalu_type:%d Nal type is PPS",nalu_type);   //pps
-            _ppsSize = frameSize - 4;
+        case NALUTypePPS:{//0x08
+            _ppsSize = nalUnit.size - 4;
             _pps = malloc(_ppsSize);
-            memcpy(_pps, &frame[4], _ppsSize);
-            break;
+            memcpy(_pps, nalUnit.data + 4, _ppsSize);
         }
-        case 0x06: { // SEI
-//            Supplemental enhancement information (SEI) and video usability information (VUI), which are extra information that can be inserted into the bitstream to enhance the use of the video for a wide variety of purposes.[clarification needed] SEI FPA (Frame Packing Arrangement) message that contains the 3D arrangement:
-//                0: checkerboard: pixels are alternatively from L and R.1: column alternation: L and R are interlaced by column.2: row alternation: L and R are interlaced by row.3: side by side: L is on the left, R on the right.4: top bottom: L is on top, R on bottom.5: frame alternation: one view per frame.
             break;
+        case NALUTypeBPFrame:{//0x01
+            NSLog(@"Nal type is B/P frame");
+            pixelBuffer = [self decode:nalUnit];
         }
-        default:
-        {
-            //            NSLog(@"Nal type is B/P frame");//其他帧
-            if([self initH264Decoder])
-            {
-                pixelBuffer = [self decode:frame withSize:frameSize];
+            break;
+        case NALUTypeIFrame:{//0x05
+            NSLog(@"Nal type is I frame");
+            if([self initH264Decoder]) {
+                pixelBuffer = [self decode:nalUnit];
             }
+        }
             break;
-        }
-            
-            
-    }
-}
--(CVPixelBufferRef)decode:(uint8_t *)frame withSize:(uint32_t)frameSize
-{
-    CVPixelBufferRef outputPixelBuffer = NULL;
-    
-    CMBlockBufferRef blockBuffer = NULL;
-    OSStatus status  = CMBlockBufferCreateWithMemoryBlock(kCFAllocatorDefault,
-                                                          (void *)frame,
-                                                          frameSize,
-                                                          kCFAllocatorNull,
-                                                          NULL,
-                                                          0,
-                                                          frameSize,
-                                                          FALSE,
-                                                          &blockBuffer);
-    if(status == kCMBlockBufferNoErr) {
-        CMSampleBufferRef sampleBuffer = NULL;
-        const size_t sampleSizeArray[] = {frameSize};
-        status = CMSampleBufferCreateReady(kCFAllocatorDefault,
-                                           blockBuffer,
-                                           _decoderFormatDescription ,
-                                           1, 0, NULL, 1, sampleSizeArray,
-                                           &sampleBuffer);
-        if (status == kCMBlockBufferNoErr && sampleBuffer) {
-            VTDecodeFrameFlags flags = 0;
-            VTDecodeInfoFlags flagOut = 0;
-            OSStatus decodeStatus = VTDecompressionSessionDecodeFrame(_deocderSession,
-                                                                      sampleBuffer,
-                                                                      flags,
-                                                                      &outputPixelBuffer,
-                                                                      &flagOut);
-            
-            if(decodeStatus == kVTInvalidSessionErr) {
-                NSLog(@"IOS8VT: Invalid session, reset decoder session");
-            } else if(decodeStatus == kVTVideoDecoderBadDataErr) {
-                NSLog(@"IOS8VT: decode failed status=%d(Bad data)", (int)decodeStatus);
-            } else if(decodeStatus != noErr) {
-                NSLog(@"IOS8VT: decode failed status=%d", (int)decodeStatus);
-            }
-            CFRelease(sampleBuffer);
-        }
-        CFRelease(blockBuffer);
     }
     
-    return outputPixelBuffer;
 }
-
-//-(void)decodeNalu:(uint8_t *)data withSize:(uint32_t)dataLen{
-//    int nalType = data[4] & 0x1F;
-//
-//    NALUnit *nalUnit = nil;;
-//    nalUnit.data = data;
-//    nalUnit.size = dataLen;
-//    nalUnit.type = nalType;
-//
-//    uint32_t nalSize = (uint32_t)(dataLen- 4);
-//    uint8_t *pNalSize = (uint8_t*)(&nalSize);
-//
-//    nalUnit.data[0] = *(pNalSize + 3);
-//    nalUnit.data[1] = *(pNalSize + 2);
-//    nalUnit.data[2] = *(pNalSize + 1);
-//    nalUnit.data[3] = *(pNalSize);
-//
-//
-//    CVPixelBufferRef pixelBuffer = NULL;
-//    //传输的时候。关键帧不能丢数据 否则绿屏   B/P可以丢  这样会卡顿
-//    switch (nalType){
-//        case NALUTypeSPS:{//0x07
-//            _spsSize = nalUnit.size - 4;
-//            _sps = malloc(_spsSize);
-//            memcpy(_sps, nalUnit.data + 4, _spsSize);
-//        }
-//            break;
-//        case NALUTypePPS:{//0x08
-//            _ppsSize = nalUnit.size - 4;
-//            _pps = malloc(_ppsSize);
-//            memcpy(_pps, nalUnit.data + 4, _ppsSize);
-//        }
-//            break;
-//        case NALUTypeBPFrame:{//0x01
-//            NSLog(@"Nal type is B/P frame");
-//            pixelBuffer = [self decode:nalUnit];
-//        }
-//            break;
-//        case NALUTypeIFrame:{//0x05
-//            if([self initH264Decoder]) {
-//                pixelBuffer = [self decode:nalUnit];
-//            }
-//        }
-//            break;
-//    }
-//
-//}
 
 @end

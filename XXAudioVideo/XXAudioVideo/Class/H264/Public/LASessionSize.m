@@ -12,8 +12,8 @@
 
 -(instancetype)init{
     if(self = [super init]){
-        _h264outputWidth = 600;
-        _h264outputHeight = 800;
+        _h264outputWidth = 1080;
+        _h264outputHeight = 1920;
     }
     return self;
 }

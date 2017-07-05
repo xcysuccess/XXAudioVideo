@@ -1,5 +1,5 @@
 //
-//  OSMOBeautyMenuView.h
+//  XXFileDecodeView.h
 //  Phantom3
 //
 //  Created by tomxiang on 24/10/2016.
@@ -11,16 +11,15 @@
 #define MANUALModeViewHeight 30
 #define MANUALModeViewWidth  25
 
-@protocol OSMOBeautyMenuViewDelegate <NSObject>
+@protocol XXFileDecodeViewDelegate <NSObject>
 
-- (void)startEncodeButtonClick;
-- (void)stopEncodeButtonClick;
+- (void)startDecodeButtonClick;
+- (void)stopDecodeButtonClick;
 - (void)closeVCClick;
-
 
 @end
 
-@interface OSMOBeautyMenuView : UIView
-@property (weak, nonatomic) id<OSMOBeautyMenuViewDelegate> delegate;
+@interface XXFileDecodeView : UIView
+@property (weak, nonatomic) id<XXFileDecodeViewDelegate> delegate;
 
 @end

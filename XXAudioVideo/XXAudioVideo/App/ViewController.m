@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "XXCameraViewController.h"
+#import "XXFileDecodeViewController.h"
 
 @interface ViewController ()
 
@@ -30,6 +31,12 @@
     
     XXCameraViewController *xxCameraVC = [[XXCameraViewController alloc] init];
     [self presentViewController:xxCameraVC animated:YES completion:^{
+    }];
+}
+- (IBAction)onPushDecodeVC:(UIButton *)sender {
+    XXFileDecodeViewController *xxFileVC = [[XXFileDecodeViewController alloc] init];
+    [self presentViewController:xxFileVC animated:YES completion:^{
+        
     }];
 }
 

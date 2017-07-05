@@ -9,11 +9,7 @@
 #import <Foundation/Foundation.h>
 @import AVFoundation;
 
-@interface NALUnit: NSObject
-@property(assign,nonatomic) unsigned int type;
-@property(assign,nonatomic) unsigned int size;
-@property(assign,nonatomic) unsigned char *data;
-@end
+
 
 
 typedef enum{
@@ -31,6 +27,8 @@ typedef enum{
 @property (weak, nonatomic) id<H264HwDecoderImplDelegate> delegate;
 
 - (instancetype) initWithConfiguration;
+
+- (void) stopDecoder;
 
 -(void)decodeNalu:(uint8_t *)data withSize:(uint32_t)dataLen;
 //-(void) decodeNalu:(uint8_t *)frame withSize:(uint32_t)frameSize;
