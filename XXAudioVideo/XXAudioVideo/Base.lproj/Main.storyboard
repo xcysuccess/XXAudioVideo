@@ -22,19 +22,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R81-am-HKx">
-                                <rect key="frame" x="153" y="170" width="69" height="30"/>
+                                <rect key="frame" x="126" y="49" width="125" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="进入相机"/>
+                                <state key="normal" title="H264编解码"/>
                                 <connections>
                                     <action selector="onPushCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="etu-hu-gIn"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rkw-SY-JMK">
-                                <rect key="frame" x="137" y="235" width="101" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rkw-SY-JMK">
+                                <rect key="frame" x="126" y="106" width="125" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="进入编码View"/>
+                                <state key="normal" title="H264文件解码"/>
                                 <connections>
                                     <action selector="onPushDecodeVC:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SLQ-dN-gC8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZw-sK-K8s">
+                                <rect key="frame" x="141" y="167" width="95" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="H265编解码"/>
+                                <connections>
+                                    <action selector="onPushH265VC:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Tg2-s9-5ed"/>
                                 </connections>
                             </button>
                         </subviews>

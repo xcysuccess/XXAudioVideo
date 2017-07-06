@@ -43,8 +43,6 @@
 		9AA394481F00ADE800F96402 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA393751F00ADE800F96402 /* View+MASAdditions.m */; };
 		9AA394491F00ADE800F96402 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA393781F00ADE800F96402 /* ViewController+MASAdditions.m */; };
 		9AA3944A1F00ADE800F96402 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 9AA393791F00ADE800F96402 /* README.md */; };
-		9AA394531F00AE2E00F96402 /* GPUImageCustomFastUploadDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3944F1F00AE2D00F96402 /* GPUImageCustomFastUploadDataSource.m */; };
-		9AA394541F00AE2E00F96402 /* OSMOGPUImageBeautyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA394511F00AE2D00F96402 /* OSMOGPUImageBeautyFilter.m */; };
 		9AA395B71F00B3D100F96402 /* GLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA394571F00B3D000F96402 /* GLProgram.m */; };
 		9AA395B81F00B3D100F96402 /* GPUImage3x3ConvolutionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3945A1F00B3D000F96402 /* GPUImage3x3ConvolutionFilter.m */; };
 		9AA395B91F00B3D100F96402 /* GPUImage3x3TextureSamplingFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3945C1F00B3D000F96402 /* GPUImage3x3TextureSamplingFilter.m */; };
@@ -219,7 +217,10 @@
 		9AA396621F00B3D100F96402 /* GPUImagePicture+TextureSubimage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA395B21F00B3D100F96402 /* GPUImagePicture+TextureSubimage.m */; };
 		9AA396631F00B3D100F96402 /* GPUImagePicture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA395B41F00B3D100F96402 /* GPUImagePicture.m */; };
 		9AA396641F00B3D100F96402 /* GPUImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA395B61F00B3D100F96402 /* GPUImageView.m */; };
-		9AAC54D21F024C33005C2053 /* OSMOBeautyMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC54D11F024C33005C2053 /* OSMOBeautyMenuView.m */; };
+		9AADC8BD1F0DD11100610C0A /* H265HwEncoderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AADC8BC1F0DD11100610C0A /* H265HwEncoderImpl.m */; };
+		9AADC8C31F0DD16600610C0A /* OSMOBeautyMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AADC8C01F0DD16100610C0A /* OSMOBeautyMenuView.m */; };
+		9AADC8C41F0DD16800610C0A /* XXCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AADC8C21F0DD16100610C0A /* XXCameraViewController.m */; };
+		9AADC8C81F0DD31E00610C0A /* XXH265CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AADC8C71F0DD31E00610C0A /* XXH265CameraViewController.m */; };
 		9AB7DEFF1F0A1F4B00AC3463 /* LASessionSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEF81F0A1EB000AC3463 /* LASessionSize.m */; };
 		9AB7DF001F0A1F4D00AC3463 /* VideoFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEFC1F0A1EEB00AC3463 /* VideoFileParser.m */; };
 		9AB7DF011F0A1F4F00AC3463 /* AAPLEAGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEFD1F0A1EEB00AC3463 /* AAPLEAGLLayer.m */; };
@@ -230,7 +231,6 @@
 		9AD3314E1F0CCE0A008CB2EC /* test.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 9AD331431F0CC82A008CB2EC /* test.h264 */; };
 		9AF83EE31F00AD4E00F8D43E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF83D301F00ACD200F8D43E /* AppDelegate.m */; };
 		9AF83EE41F00AD5000F8D43E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF83D321F00ACD200F8D43E /* ViewController.m */; };
-		9AF8423E1F00ADBA00F8D43E /* XXCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF83D351F00ACE100F8D43E /* XXCameraViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -327,10 +327,6 @@
 		9AA393771F00ADE800F96402 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		9AA393781F00ADE800F96402 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		9AA393791F00ADE800F96402 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		9AA3944E1F00AE2D00F96402 /* GPUImageCustomFastUploadDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageCustomFastUploadDataSource.h; sourceTree = "<group>"; };
-		9AA3944F1F00AE2D00F96402 /* GPUImageCustomFastUploadDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageCustomFastUploadDataSource.m; sourceTree = "<group>"; };
-		9AA394501F00AE2D00F96402 /* OSMOGPUImageBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSMOGPUImageBeautyFilter.h; sourceTree = "<group>"; };
-		9AA394511F00AE2D00F96402 /* OSMOGPUImageBeautyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSMOGPUImageBeautyFilter.m; sourceTree = "<group>"; };
 		9AA394561F00B3D000F96402 /* GLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLProgram.h; sourceTree = "<group>"; };
 		9AA394571F00B3D000F96402 /* GLProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLProgram.m; sourceTree = "<group>"; };
 		9AA394581F00B3D000F96402 /* GPUImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImage.h; sourceTree = "<group>"; };
@@ -682,8 +678,14 @@
 		9AA395B41F00B3D100F96402 /* GPUImagePicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImagePicture.m; sourceTree = "<group>"; };
 		9AA395B51F00B3D100F96402 /* GPUImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageView.h; sourceTree = "<group>"; };
 		9AA395B61F00B3D100F96402 /* GPUImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageView.m; sourceTree = "<group>"; };
-		9AAC54D01F024C33005C2053 /* OSMOBeautyMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSMOBeautyMenuView.h; sourceTree = "<group>"; };
-		9AAC54D11F024C33005C2053 /* OSMOBeautyMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSMOBeautyMenuView.m; sourceTree = "<group>"; };
+		9AADC8BB1F0DD11100610C0A /* H265HwEncoderImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = H265HwEncoderImpl.h; sourceTree = "<group>"; };
+		9AADC8BC1F0DD11100610C0A /* H265HwEncoderImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = H265HwEncoderImpl.m; sourceTree = "<group>"; };
+		9AADC8BF1F0DD16100610C0A /* OSMOBeautyMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSMOBeautyMenuView.h; sourceTree = "<group>"; };
+		9AADC8C01F0DD16100610C0A /* OSMOBeautyMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OSMOBeautyMenuView.m; sourceTree = "<group>"; };
+		9AADC8C11F0DD16100610C0A /* XXCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXCameraViewController.h; sourceTree = "<group>"; };
+		9AADC8C21F0DD16100610C0A /* XXCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXCameraViewController.m; sourceTree = "<group>"; };
+		9AADC8C61F0DD31E00610C0A /* XXH265CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXH265CameraViewController.h; sourceTree = "<group>"; };
+		9AADC8C71F0DD31E00610C0A /* XXH265CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXH265CameraViewController.m; sourceTree = "<group>"; };
 		9AB7DEF21F0A1EB000AC3463 /* H264HwEncoderImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = H264HwEncoderImpl.h; sourceTree = "<group>"; };
 		9AB7DEF31F0A1EB000AC3463 /* H264HwEncoderImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = H264HwEncoderImpl.m; sourceTree = "<group>"; };
 		9AB7DEF71F0A1EB000AC3463 /* LASessionSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LASessionSize.h; sourceTree = "<group>"; };
@@ -703,8 +705,6 @@
 		9AF83D301F00ACD200F8D43E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9AF83D311F00ACD200F8D43E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9AF83D321F00ACD200F8D43E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		9AF83D341F00ACE100F8D43E /* XXCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXCameraViewController.h; sourceTree = "<group>"; };
-		9AF83D351F00ACE100F8D43E /* XXCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXCameraViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -902,17 +902,6 @@
 				9AA393781F00ADE800F96402 /* ViewController+MASAdditions.m */,
 			);
 			path = Masonry;
-			sourceTree = "<group>";
-		};
-		9AA3944B1F00AE2D00F96402 /* GPUExtern */ = {
-			isa = PBXGroup;
-			children = (
-				9AA3944E1F00AE2D00F96402 /* GPUImageCustomFastUploadDataSource.h */,
-				9AA3944F1F00AE2D00F96402 /* GPUImageCustomFastUploadDataSource.m */,
-				9AA394501F00AE2D00F96402 /* OSMOGPUImageBeautyFilter.h */,
-				9AA394511F00AE2D00F96402 /* OSMOGPUImageBeautyFilter.m */,
-			);
-			path = GPUExtern;
 			sourceTree = "<group>";
 		};
 		9AA394551F00B3D000F96402 /* GPUImage */ = {
@@ -1292,11 +1281,58 @@
 		9AAC54D31F025299005C2053 /* H264 */ = {
 			isa = PBXGroup;
 			children = (
+				9AADC8BE1F0DD16100610C0A /* ViewController */,
 				9AB7DEF61F0A1EB000AC3463 /* Public */,
 				9AB7DEEC1F0A1EB000AC3463 /* Decode */,
 				9AB7DEED1F0A1EB000AC3463 /* Encode */,
 			);
 			path = H264;
+			sourceTree = "<group>";
+		};
+		9AADC8B81F0DD0B800610C0A /* H265 */ = {
+			isa = PBXGroup;
+			children = (
+				9AADC8B91F0DD0D600610C0A /* Decode */,
+				9AADC8BA1F0DD0D600610C0A /* Encode */,
+				9AADC8C51F0DD17E00610C0A /* ViewController */,
+			);
+			path = H265;
+			sourceTree = "<group>";
+		};
+		9AADC8B91F0DD0D600610C0A /* Decode */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Decode;
+			sourceTree = "<group>";
+		};
+		9AADC8BA1F0DD0D600610C0A /* Encode */ = {
+			isa = PBXGroup;
+			children = (
+				9AADC8BB1F0DD11100610C0A /* H265HwEncoderImpl.h */,
+				9AADC8BC1F0DD11100610C0A /* H265HwEncoderImpl.m */,
+			);
+			path = Encode;
+			sourceTree = "<group>";
+		};
+		9AADC8BE1F0DD16100610C0A /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9AADC8BF1F0DD16100610C0A /* OSMOBeautyMenuView.h */,
+				9AADC8C01F0DD16100610C0A /* OSMOBeautyMenuView.m */,
+				9AADC8C11F0DD16100610C0A /* XXCameraViewController.h */,
+				9AADC8C21F0DD16100610C0A /* XXCameraViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9AADC8C51F0DD17E00610C0A /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9AADC8C61F0DD31E00610C0A /* XXH265CameraViewController.h */,
+				9AADC8C71F0DD31E00610C0A /* XXH265CameraViewController.m */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		9AB7DEEC1F0A1EB000AC3463 /* Decode */ = {
@@ -1356,12 +1392,8 @@
 			isa = PBXGroup;
 			children = (
 				9AD331471F0CCA15008CB2EC /* FileDecodeVC */,
-				9AA3944B1F00AE2D00F96402 /* GPUExtern */,
 				9AAC54D31F025299005C2053 /* H264 */,
-				9AF83D341F00ACE100F8D43E /* XXCameraViewController.h */,
-				9AF83D351F00ACE100F8D43E /* XXCameraViewController.m */,
-				9AAC54D01F024C33005C2053 /* OSMOBeautyMenuView.h */,
-				9AAC54D11F024C33005C2053 /* OSMOBeautyMenuView.m */,
+				9AADC8B81F0DD0B800610C0A /* H265 */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -1572,6 +1604,7 @@
 				9AA395D71F00B3D100F96402 /* GPUImageCrosshatchFilter.m in Sources */,
 				9AA3963C1F00B3D100F96402 /* GPUImageSobelEdgeDetectionFilter.m in Sources */,
 				9AA396571F00B3D100F96402 /* GPUImageVibranceFilter.m in Sources */,
+				9AADC8C41F0DD16800610C0A /* XXCameraViewController.m in Sources */,
 				9AA395DB1F00B3D100F96402 /* GPUImageDirectionalNonMaximumSuppressionFilter.m in Sources */,
 				9AA396381F00B3D100F96402 /* GPUImageSingleComponentGaussianBlurFilter.m in Sources */,
 				9AA395C51F00B3D100F96402 /* GPUImageCannyEdgeDetectionFilter.m in Sources */,
@@ -1611,16 +1644,13 @@
 				9AA396131F00B3D100F96402 /* GPUImageMonochromeFilter.m in Sources */,
 				9AA396591F00B3D100F96402 /* GPUImageVignetteFilter.m in Sources */,
 				9AA396521F00B3D100F96402 /* GPUImageTwoInputFilter.m in Sources */,
-				9AA394531F00AE2E00F96402 /* GPUImageCustomFastUploadDataSource.m in Sources */,
 				9AA396021F00B3D100F96402 /* GPUImageKuwaharaRadius3Filter.m in Sources */,
 				9AA3964B1F00B3D100F96402 /* GPUImageThresholdedNonMaximumSuppressionFilter.m in Sources */,
 				9AA396641F00B3D100F96402 /* GPUImageView.m in Sources */,
-				9AAC54D21F024C33005C2053 /* OSMOBeautyMenuView.m in Sources */,
 				9AA395BB1F00B3D100F96402 /* GPUImageAddBlendFilter.m in Sources */,
 				9AA393881F00ADE800F96402 /* UIProgressView+AFNetworking.m in Sources */,
 				9AA394471F00ADE800F96402 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				9AA393831F00ADE800F96402 /* AFImageDownloader.m in Sources */,
-				9AA394541F00AE2E00F96402 /* OSMOGPUImageBeautyFilter.m in Sources */,
 				9AA395FD1F00B3D100F96402 /* GPUImageHueBlendFilter.m in Sources */,
 				9AA395DA1F00B3D100F96402 /* GPUImageDilationFilter.m in Sources */,
 				9AA395F81F00B3D100F96402 /* GPUImageHistogramEqualizationFilter.m in Sources */,
@@ -1637,6 +1667,7 @@
 				9AA395DF1F00B3D100F96402 /* GPUImageEmbossFilter.m in Sources */,
 				9AA395C71F00B3D100F96402 /* GPUImageChromaKeyBlendFilter.m in Sources */,
 				9AA393821F00ADE800F96402 /* AFAutoPurgingImageCache.m in Sources */,
+				9AADC8BD1F0DD11100610C0A /* H265HwEncoderImpl.m in Sources */,
 				9AF83EE31F00AD4E00F8D43E /* AppDelegate.m in Sources */,
 				9AA3965B1F00B3D100F96402 /* GPUImageWeakPixelInclusionFilter.m in Sources */,
 				9AA396171F00B3D100F96402 /* GPUImageMovie.m in Sources */,
@@ -1646,6 +1677,7 @@
 				9AA396621F00B3D100F96402 /* GPUImagePicture+TextureSubimage.m in Sources */,
 				9AA395EF1F00B3D100F96402 /* GPUImageGlassSphereFilter.m in Sources */,
 				9AA395C41F00B3D100F96402 /* GPUImageBulgeDistortionFilter.m in Sources */,
+				9AADC8C81F0DD31E00610C0A /* XXH265CameraViewController.m in Sources */,
 				9AA395E41F00B3D100F96402 /* GPUImageFASTCornerDetectionFilter.m in Sources */,
 				9AA395BD1F00B3D100F96402 /* GPUImageAmatorkaFilter.m in Sources */,
 				9AA395D11F00B3D100F96402 /* GPUImageColorPackingFilter.m in Sources */,
@@ -1706,13 +1738,13 @@
 				9AA396261F00B3D100F96402 /* GPUImagePoissonBlendFilter.m in Sources */,
 				9AA396551F00B3D100F96402 /* GPUImageUIElement.m in Sources */,
 				9AA396411F00B3D100F96402 /* GPUImageSourceOverBlendFilter.m in Sources */,
-				9AF8423E1F00ADBA00F8D43E /* XXCameraViewController.m in Sources */,
 				9AA396451F00B3D100F96402 /* GPUImageSubtractBlendFilter.m in Sources */,
 				9AD3314D1F0CCAD2008CB2EC /* XXFileDecodeView.m in Sources */,
 				9AA3944A1F00ADE800F96402 /* README.md in Sources */,
 				9AA396151F00B3D100F96402 /* GPUImageMotionBlurFilter.m in Sources */,
 				9AA3963E1F00B3D100F96402 /* GPUImageSoftLightBlendFilter.m in Sources */,
 				9AA395B91F00B3D100F96402 /* GPUImage3x3TextureSamplingFilter.m in Sources */,
+				9AADC8C31F0DD16600610C0A /* OSMOBeautyMenuView.m in Sources */,
 				9AA395D51F00B3D100F96402 /* GPUImageCropFilter.m in Sources */,
 				9AA396201F00B3D100F96402 /* GPUImageOverlayBlendFilter.m in Sources */,
 				9AA393811F00ADE800F96402 /* README.md in Sources */,
@@ -1888,6 +1920,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = N4S5894589;
 				INFOPLIST_FILE = XXAudioVideo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.radarchart.XXAudioVideo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1900,6 +1933,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = N4S5894589;
 				INFOPLIST_FILE = XXAudioVideo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.radarchart.XXAudioVideo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

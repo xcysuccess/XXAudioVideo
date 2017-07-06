@@ -11,8 +11,6 @@
 #import "OSMOBeautyMenuView.h"
 #import "VideoFileParser.h"
 
-#import "GPUImageCustomFastUploadDataSource.h"
-#import "OSMOGPUImageBeautyFilter.h"
 #import "Masonry.h"
 #import "LASessionSize.h"
 #import "H264HwEncoderImpl.h"
