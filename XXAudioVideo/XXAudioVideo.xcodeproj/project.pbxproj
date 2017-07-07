@@ -221,6 +221,8 @@
 		9AADC8C31F0DD16600610C0A /* OSMOBeautyMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AADC8C01F0DD16100610C0A /* OSMOBeautyMenuView.m */; };
 		9AADC8C41F0DD16800610C0A /* XXCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AADC8C21F0DD16100610C0A /* XXCameraViewController.m */; };
 		9AADC8C81F0DD31E00610C0A /* XXH265CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AADC8C71F0DD31E00610C0A /* XXH265CameraViewController.m */; };
+		9AADC8D01F0E714A00610C0A /* LALiveConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AADC8CF1F0E714A00610C0A /* LALiveConfiguration.m */; };
+		9AADC8D61F0F29C700610C0A /* test.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 9AADC8D51F0F29AA00610C0A /* test.h264 */; };
 		9AB7DEFF1F0A1F4B00AC3463 /* LASessionSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEF81F0A1EB000AC3463 /* LASessionSize.m */; };
 		9AB7DF001F0A1F4D00AC3463 /* VideoFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEFC1F0A1EEB00AC3463 /* VideoFileParser.m */; };
 		9AB7DF011F0A1F4F00AC3463 /* AAPLEAGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEFD1F0A1EEB00AC3463 /* AAPLEAGLLayer.m */; };
@@ -228,7 +230,6 @@
 		9AB7DF031F0A1F5200AC3463 /* H264HwEncoderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEF31F0A1EB000AC3463 /* H264HwEncoderImpl.m */; };
 		9AD3314C1F0CCAD0008CB2EC /* XXFileDecodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD3314B1F0CCA15008CB2EC /* XXFileDecodeViewController.m */; };
 		9AD3314D1F0CCAD2008CB2EC /* XXFileDecodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD331491F0CCA15008CB2EC /* XXFileDecodeView.m */; };
-		9AD3314E1F0CCE0A008CB2EC /* test.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 9AD331431F0CC82A008CB2EC /* test.h264 */; };
 		9AF83EE31F00AD4E00F8D43E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF83D301F00ACD200F8D43E /* AppDelegate.m */; };
 		9AF83EE41F00AD5000F8D43E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF83D321F00ACD200F8D43E /* ViewController.m */; };
 /* End PBXBuildFile section */
@@ -686,6 +687,9 @@
 		9AADC8C21F0DD16100610C0A /* XXCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXCameraViewController.m; sourceTree = "<group>"; };
 		9AADC8C61F0DD31E00610C0A /* XXH265CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXH265CameraViewController.h; sourceTree = "<group>"; };
 		9AADC8C71F0DD31E00610C0A /* XXH265CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXH265CameraViewController.m; sourceTree = "<group>"; };
+		9AADC8CE1F0E714A00610C0A /* LALiveConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LALiveConfiguration.h; sourceTree = "<group>"; };
+		9AADC8CF1F0E714A00610C0A /* LALiveConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LALiveConfiguration.m; sourceTree = "<group>"; };
+		9AADC8D51F0F29AA00610C0A /* test.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.h264; sourceTree = "<group>"; };
 		9AB7DEF21F0A1EB000AC3463 /* H264HwEncoderImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = H264HwEncoderImpl.h; sourceTree = "<group>"; };
 		9AB7DEF31F0A1EB000AC3463 /* H264HwEncoderImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = H264HwEncoderImpl.m; sourceTree = "<group>"; };
 		9AB7DEF71F0A1EB000AC3463 /* LASessionSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LASessionSize.h; sourceTree = "<group>"; };
@@ -696,7 +700,6 @@
 		9AB7DEFC1F0A1EEB00AC3463 /* VideoFileParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoFileParser.m; sourceTree = "<group>"; };
 		9AB7DEFD1F0A1EEB00AC3463 /* AAPLEAGLLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEAGLLayer.m; sourceTree = "<group>"; };
 		9AB7DEFE1F0A1EEB00AC3463 /* AAPLEAGLLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLEAGLLayer.h; sourceTree = "<group>"; };
-		9AD331431F0CC82A008CB2EC /* test.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.h264; sourceTree = "<group>"; };
 		9AD331481F0CCA15008CB2EC /* XXFileDecodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXFileDecodeView.h; sourceTree = "<group>"; };
 		9AD331491F0CCA15008CB2EC /* XXFileDecodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXFileDecodeView.m; sourceTree = "<group>"; };
 		9AD3314A1F0CCA15008CB2EC /* XXFileDecodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXFileDecodeViewController.h; sourceTree = "<group>"; };
@@ -764,7 +767,7 @@
 		9AA3919A1F00A6B300F96402 /* XXAudioVideo */ = {
 			isa = PBXGroup;
 			children = (
-				9AD331431F0CC82A008CB2EC /* test.h264 */,
+				9AADC8D51F0F29AA00610C0A /* test.h264 */,
 				9A95C02E1F04F77B00BB1662 /* Tools */,
 				9AF83D361F00AD2E00F8D43E /* 3dParty */,
 				9AF83D2E1F00ACD200F8D43E /* App */,
@@ -1311,6 +1314,8 @@
 			children = (
 				9AADC8BB1F0DD11100610C0A /* H265HwEncoderImpl.h */,
 				9AADC8BC1F0DD11100610C0A /* H265HwEncoderImpl.m */,
+				9AADC8CE1F0E714A00610C0A /* LALiveConfiguration.h */,
+				9AADC8CF1F0E714A00610C0A /* LALiveConfiguration.m */,
 			);
 			path = Encode;
 			sourceTree = "<group>";
@@ -1522,7 +1527,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AD3314E1F0CCE0A008CB2EC /* test.h264 in Resources */,
+				9AADC8D61F0F29C700610C0A /* test.h264 in Resources */,
 				9AA391AB1F00A6B300F96402 /* LaunchScreen.storyboard in Resources */,
 				9AA391A81F00A6B300F96402 /* Assets.xcassets in Resources */,
 				9AA3965F1F00B3D100F96402 /* Info.plist in Resources */,
@@ -1686,6 +1691,7 @@
 				9AA395CF1F00B3D100F96402 /* GPUImageColorLocalBinaryPatternFilter.m in Sources */,
 				9AA393851F00ADE800F96402 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				9AA3937A1F00ADE800F96402 /* AFHTTPSessionManager.m in Sources */,
+				9AADC8D01F0E714A00610C0A /* LALiveConfiguration.m in Sources */,
 				9AA396081F00B3D100F96402 /* GPUImageLineGenerator.m in Sources */,
 				9AA394431F00ADE800F96402 /* MASLayoutConstraint.m in Sources */,
 				9AA395D31F00B3D100F96402 /* GPUImageColourFASTSamplingOperation.m in Sources */,

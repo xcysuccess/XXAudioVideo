@@ -9,6 +9,7 @@
 #import "H264HwEncoderImpl.h"
 #import "LAScreenEx.h"
 #import "LASessionSize.h"
+#import "LALiveConfiguration.h"
 
 @import VideoToolbox;
 @import AVFoundation;
@@ -24,7 +25,11 @@
     
     int frameID;
 }
+@property (nonatomic, strong) LALiveConfiguration *configuration;
+@property (nonatomic) NSInteger currentVideoBitRate;
 @end
+
+
 
 @implementation H264HwEncoderImpl
 
@@ -37,6 +42,7 @@
         sps = NULL;
         pps = NULL;
         
+        _configuration = [LALiveConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_High2];
         [self p_initVideoToolBox:[LASessionSize sharedInstance].h264outputWidth
                           height:[LASessionSize sharedInstance].h264outputHeight];
     }
@@ -61,14 +67,30 @@
         VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_High_AutoLevel);
         
         // 设置关键帧（GOPsize)间隔
-        int frameInterval = 10;
-        CFNumberRef  frameIntervalRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &frameInterval);
-        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, frameIntervalRef);
+//        int frameInterval = 10;
+//        CFNumberRef  frameIntervalRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &frameInterval);
+//        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, frameIntervalRef);
+//
+//        // 设置期望帧率
+//        int fps = 30;
+//        CFNumberRef  fpsRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &fps);
+//        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_ExpectedFrameRate, fpsRef);
+        
+        _currentVideoBitRate = _configuration.videoBitRate;
+        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_MaxKeyFrameInterval,(__bridge CFTypeRef)@(_configuration.videoMaxKeyframeInterval));
+        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration,(__bridge CFTypeRef)@(_configuration.videoMaxKeyframeInterval));
+        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_ExpectedFrameRate, (__bridge CFTypeRef)@(_configuration.videoFrameRate));
+        
+        //设置码率，上限，单位是bps
+        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_AverageBitRate, (__bridge CFTypeRef)@(_configuration.videoMaxBitRate));
+        
+        //设置码率，均值，单位是byte
+        status +=  VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFArrayRef)@[@(_configuration.videoMaxBitRate*2/8), @1]); // Bps
+        
+        NSLog(@"set bitrate  return: %d", (int)status);
+        
 
-        // 设置期望帧率
-        int fps = 30;
-        CFNumberRef  fpsRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &fps);
-        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_ExpectedFrameRate, fpsRef);
+//        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFTypeRef)@(_configuration.videoBitRate));
         
         //3.Tell the encoder to start encoding
         VTCompressionSessionPrepareToEncodeFrames(EncodingSession);
@@ -76,31 +98,6 @@
     });
 }
 //http://km.oa.com/group/16071/articles/show/288149?kmref=search&from_page=2&no=5
-//- (void) encode:(CMSampleBufferRef )sampleBuffer
-//{
-//    dispatch_sync(aQueue, ^{
-//        frameID++;
-//
-//        CVImageBufferRef imageBuffer = (CVImageBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);
-//        // 帧时间，如果不设置会导致时间轴过长。
-//        CMTime presentationTimeStamp = CMTimeMake(frameID, 1000);
-//        VTEncodeInfoFlags flags;
-//
-//        OSStatus statusCode = VTCompressionSessionEncodeFrame(EncodingSession,
-//                                                              imageBuffer,
-//                                                              presentationTimeStamp,
-//                                                              kCMTimeInvalid,
-//                                                              NULL, NULL, &flags);
-//        if (statusCode != noErr) {
-//            NSLog(@"H264: VTCompressionSessionEncodeFrame failed with %d", (int)statusCode);
-//            VTCompressionSessionInvalidate(EncodingSession);
-//            CFRelease(EncodingSession);
-//            EncodingSession = NULL;
-//            return;
-//        }
-//        NSLog(@"H264: VTCompressionSessionEncodeFrame Success");
-//    });
-//}
 - (void) encode:(CMSampleBufferRef )sampleBuffer
 {
     if (EncodingSession==nil||EncodingSession==NULL)
@@ -110,13 +107,17 @@
     dispatch_sync(aQueue, ^{
         frameID++;
         CVImageBufferRef imageBuffer = (CVImageBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);
+        CMTime duration = CMSampleBufferGetOutputDuration(sampleBuffer);
+
         CMTime presentationTimeStamp = CMTimeMake(frameID, 1000);
         VTEncodeInfoFlags flags;
         OSStatus statusCode = VTCompressionSessionEncodeFrame(EncodingSession,
                                                               imageBuffer,
                                                               presentationTimeStamp,
-                                                              kCMTimeInvalid,
-                                                              NULL, NULL, &flags);
+                                                              duration,
+                                                              NULL,
+                                                              imageBuffer,
+                                                              &flags);
         if (statusCode != noErr)
         {
             if (EncodingSession!=nil||EncodingSession!=NULL)

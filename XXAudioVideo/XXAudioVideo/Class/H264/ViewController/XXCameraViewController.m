@@ -108,7 +108,7 @@
     [session addOutput:output];
     
     [session beginConfiguration];
-    session.sessionPreset = AVCaptureSessionPresetHigh;
+    session.sessionPreset = AVCaptureSessionPresetiFrame1280x720;
     _connection = [output connectionWithMediaType:AVMediaTypeVideo];
     [self setRelativeVideoOrientation];
     [session commitConfiguration];

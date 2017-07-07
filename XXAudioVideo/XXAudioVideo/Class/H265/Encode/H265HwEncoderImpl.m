@@ -9,9 +9,11 @@
 #import "H265HwEncoderImpl.h"
 #import "LAScreenEx.h"
 #import "LASessionSize.h"
+#import "LALiveConfiguration.h"
 
 @import VideoToolbox;
 @import AVFoundation;
+
 
 @interface H265HwEncoderImpl()
 {
@@ -26,6 +28,10 @@
     
     int frameID;
 }
+
+@property (nonatomic, strong) LALiveConfiguration *configuration;
+@property (nonatomic) NSInteger currentVideoBitRate;
+
 @end
 
 @implementation H265HwEncoderImpl
@@ -47,6 +53,7 @@
         sps = NULL;
         pps = NULL;
         
+        _configuration = [LALiveConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_High2];
         [self p_initVideoToolBox:[LASessionSize sharedInstance].h264outputWidth
                           height:[LASessionSize sharedInstance].h264outputHeight];
     }
@@ -69,19 +76,20 @@
         // 设置实时编码输出（避免延迟）
         VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
         VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_HEVC_Main_AutoLevel);
+        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_AllowFrameReordering, kCFBooleanTrue);
         
-        // 设置关键帧（GOPsize)间隔
-        int frameInterval = 10;
-        CFNumberRef  frameIntervalRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &frameInterval);
-        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, frameIntervalRef);
+        _currentVideoBitRate = _configuration.videoBitRate;
+        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_MaxKeyFrameInterval,(__bridge CFTypeRef)@(_configuration.videoMaxKeyframeInterval));
+        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration,(__bridge CFTypeRef)@(_configuration.videoMaxKeyframeInterval));
+        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_ExpectedFrameRate, (__bridge CFTypeRef)@(_configuration.videoFrameRate));
         
-        status =VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_AverageBitRate,(__bridge CFTypeRef _Nonnull)(@500000));
+        //设置码率，上限，单位是bps
+        status = VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_AverageBitRate, (__bridge CFTypeRef)@(_configuration.videoMaxBitRate));
+        //设置码率，均值，单位是byte
+        status +=  VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFArrayRef)@[@(_configuration.videoMaxBitRate/8), @1]); // Bps
         
+        NSLog(@"set bitrate  return: %d", (int)status);
         
-        // 设置期望帧率
-        int fps = 30;
-        CFNumberRef  fpsRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &fps);
-        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_ExpectedFrameRate, fpsRef);
         
         //3.Tell the encoder to start encoding
         VTCompressionSessionPrepareToEncodeFrames(EncodingSession);
@@ -98,13 +106,17 @@
     dispatch_sync(aQueue, ^{
         frameID++;
         CVImageBufferRef imageBuffer = (CVImageBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);
+        CMTime duration = CMSampleBufferGetOutputDuration(sampleBuffer);
+        
         CMTime presentationTimeStamp = CMTimeMake(frameID, 1000);
         VTEncodeInfoFlags flags;
         OSStatus statusCode = VTCompressionSessionEncodeFrame(EncodingSession,
                                                               imageBuffer,
                                                               presentationTimeStamp,
-                                                              kCMTimeInvalid,
-                                                              NULL, NULL, &flags);
+                                                              duration,
+                                                              NULL,
+                                                              imageBuffer,
+                                                              &flags);
         if (statusCode != noErr)
         {
             if (EncodingSession!=nil||EncodingSession!=NULL)
@@ -178,6 +190,7 @@ void didCompressH265(void *outputCallbackRefCon,void *sourceFrameRefCon,OSStatus
     size_t length, totalLength;
     char *dataPointer;
     OSStatus statusCodeRet = CMBlockBufferGetDataPointer(dataBuffer, 0, &length, &totalLength, &dataPointer);
+        
     if(statusCodeRet == noErr){
         size_t bufferOffset = 0;
         static const int AVCCHeaderLength = 4; //返回的NALU数据前四子节不是00 01的startcode，而是大端模式
