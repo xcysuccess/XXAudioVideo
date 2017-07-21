@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -43,6 +42,14 @@
                                 <state key="normal" title="H265编解码"/>
                                 <connections>
                                     <action selector="onPushH265VC:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Tg2-s9-5ed"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kWg-gG-YWQ">
+                                <rect key="frame" x="126" y="226" width="125" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="H264软编解码"/>
+                                <connections>
+                                    <action selector="onPushFFmpegVC:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0pu-JQ-SuT"/>
                                 </connections>
                             </button>
                         </subviews>

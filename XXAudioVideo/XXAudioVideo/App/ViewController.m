@@ -10,6 +10,7 @@
 #import "XXCameraViewController.h"
 #import "XXFileDecodeViewController.h"
 #import "XXH265CameraViewController.h"
+#import "XXFFmpegViewController.h"
 
 @interface ViewController ()
 
@@ -43,6 +44,12 @@
 - (IBAction)onPushH265VC:(id)sender {
     XXH265CameraViewController *h265VC = [[XXH265CameraViewController alloc] init];
     [self presentViewController:h265VC animated:YES completion:^{
+        
+    }];
+}
+- (IBAction)onPushFFmpegVC:(UIButton *)sender {
+    XXFFmpegViewController *ffmpegVC = [[XXFFmpegViewController alloc] init];
+    [self presentViewController:ffmpegVC animated:YES completion:^{
         
     }];
 }
