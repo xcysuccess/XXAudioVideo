@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A9589E81F21959B006ABF63 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9589E71F219595006ABF63 /* libx264.a */; };
+		9A9589F11F21AD31006ABF63 /* AACHwEncoderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9589F01F21AD31006ABF63 /* AACHwEncoderImpl.m */; };
 		9A95C0311F04F77B00BB1662 /* LAScreenEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A95C0301F04F77B00BB1662 /* LAScreenEx.m */; };
 		9AA3919D1F00A6B300F96402 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3919C1F00A6B300F96402 /* main.m */; };
 		9AA391A61F00A6B300F96402 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AA391A41F00A6B300F96402 /* Main.storyboard */; };
@@ -271,6 +272,8 @@
 		9A9589E41F219595006ABF63 /* x264.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x264.h; sourceTree = "<group>"; };
 		9A9589E51F219595006ABF63 /* x264_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x264_config.h; sourceTree = "<group>"; };
 		9A9589E71F219595006ABF63 /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libx264.a; sourceTree = "<group>"; };
+		9A9589EF1F21AD31006ABF63 /* AACHwEncoderImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AACHwEncoderImpl.h; sourceTree = "<group>"; };
+		9A9589F01F21AD31006ABF63 /* AACHwEncoderImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AACHwEncoderImpl.m; sourceTree = "<group>"; };
 		9A95C02F1F04F77B00BB1662 /* LAScreenEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAScreenEx.h; sourceTree = "<group>"; };
 		9A95C0301F04F77B00BB1662 /* LAScreenEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAScreenEx.m; sourceTree = "<group>"; };
 		9AA391981F00A6B300F96402 /* XXAudioVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXAudioVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1543,6 +1546,8 @@
 			children = (
 				9AB7DEF21F0A1EB000AC3463 /* H264HwEncoderImpl.h */,
 				9AB7DEF31F0A1EB000AC3463 /* H264HwEncoderImpl.m */,
+				9A9589EF1F21AD31006ABF63 /* AACHwEncoderImpl.h */,
+				9A9589F01F21AD31006ABF63 /* AACHwEncoderImpl.m */,
 			);
 			path = Encode;
 			sourceTree = "<group>";
@@ -2012,6 +2017,7 @@
 				9AA395BC1F00B3D100F96402 /* GPUImageAlphaBlendFilter.m in Sources */,
 				9AA3960F1F00B3D100F96402 /* GPUImageLuminosityBlendFilter.m in Sources */,
 				9AA395E11F00B3D100F96402 /* GPUImageExclusionBlendFilter.m in Sources */,
+				9A9589F11F21AD31006ABF63 /* AACHwEncoderImpl.m in Sources */,
 				9AA396461F00B3D100F96402 /* GPUImageSwirlFilter.m in Sources */,
 				9AA396481F00B3D100F96402 /* GPUImageTextureOutput.m in Sources */,
 				9AA395D81F00B3D100F96402 /* GPUImageDarkenBlendFilter.m in Sources */,

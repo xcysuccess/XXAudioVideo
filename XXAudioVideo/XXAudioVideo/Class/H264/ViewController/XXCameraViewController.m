@@ -16,34 +16,69 @@
 #import "H264HwEncoderImpl.h"
 #import "H264HwDecoderImpl.h"
 #import "AAPLEAGLLayer.h"
+#import "AACHwEncoderImpl.h"
 
-@interface XXCameraViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate,H264HwEncoderImplDelegate,H264HwDecoderImplDelegate,OSMOBeautyMenuViewDelegate>
+@interface XXCameraViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate,H264HwEncoderImplDelegate,H264HwDecoderImplDelegate,OSMOBeautyMenuViewDelegate>
 {
     NSFileHandle *_fileHandle;
     NSString *_h264File;
-    BOOL _isStartedEncoded;
     
-    AVCaptureConnection  *_connection;
-    AVCaptureDevice      *_videoDevice;
-    AVCaptureSession     *_captureSession;
+    NSFileHandle *_audioFileHandle;
+    NSString *_aacFile;
+    
+    BOOL _isStartedEncoded;
+
     OSMOBeautyMenuView   *_beautyMenuView;
     
     H264HwEncoderImpl *_h264Encoder;
-    AVCaptureVideoPreviewLayer *_previewLayer;
-    
     H264HwDecoderImpl *_h264Decoder;
+    
+    AACHwEncoderImpl *_aacEncoder;
+    
     AAPLEAGLLayer *_playLayer;
 }
+@property (nonatomic , strong) AVCaptureSession *captureSession; //负责输入和输出设备之间的数据传递
+
+@property (nonatomic , strong) AVCaptureConnection *videoConnection;
+@property (nonatomic , strong) AVCaptureConnection *audioConnection;
+
+@property (nonatomic , strong) AVCaptureAudioDataOutput *captureAudioOutput;
+@property (nonatomic , strong) AVCaptureVideoDataOutput *captureVideoOutput;
+
+@property (nonatomic, strong) dispatch_queue_t videoQueue;
+@property (nonatomic, strong) dispatch_queue_t audioQueue;
+
+@property (nonatomic , strong) AVCaptureVideoPreviewLayer *previewLayer;
 @end
 
 @implementation XXCameraViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+    switch (status) {
+        case AVAuthorizationStatusNotDetermined:{
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
+                
+            }];
+            break;
+        }
+        case AVAuthorizationStatusAuthorized:{
+            break;
+        }
+        case AVAuthorizationStatusDenied:
+        case AVAuthorizationStatusRestricted:
+            break;
+        default:
+            break;
+    }
+    
     [self initViews];
     [self initData];
     [self startCaptureSession];
+    [self showPlayer];
 }
+
 -(void)dealloc{
 }
 
@@ -64,6 +99,9 @@
         _h264Decoder = [[H264HwDecoderImpl alloc] initWithConfiguration];
         _h264Decoder.delegate = self;
     }
+    if(!_aacEncoder){
+        _aacEncoder = [[AACHwEncoderImpl alloc] init];
+    }
 
 }
 
@@ -79,45 +117,73 @@
 }
 
 - (AVCaptureDevice *)p_cameraWithPosition:(AVCaptureDevicePosition)position{
-    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    for ( AVCaptureDevice *device in devices )
-        if ( device.position == position ){
+    AVCaptureDeviceDiscoverySession *devicesIOS10 = [AVCaptureDeviceDiscoverySession
+                                                     discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera]
+                                                     mediaType:AVMediaTypeVideo
+                                                     position:position];
+    
+    NSArray *devicesIOS  = devicesIOS10.devices;
+    for (AVCaptureDevice *device in devicesIOS) {
+        if ([device position] == position) {
             return device;
         }
+    }
     return nil;
 }
 
 - (void) startCaptureSession {
+    // 初始化 session
+    _captureSession = [[AVCaptureSession alloc] init];
+    
+    // 配置采集输入源（摄像头）
     NSError *error = nil;
-    _videoDevice = [self p_cameraWithPosition:AVCaptureDevicePositionFront];
-    
-    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:_videoDevice
-                                                                        error:&error];
-    if (!input) {
-        NSLog(@"PANIC: no media input");
+    // 获得一个采集设备, 默认后置摄像头
+    AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice *audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
+    // 用设备初始化一个采集的输入对象
+    AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
+    AVCaptureDeviceInput *audioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:&error];
+    if (error) {
+        NSLog(@"Error getting  input device: %@", error.description);
+        return;
     }
-    AVCaptureSession *session = [[AVCaptureSession alloc] init];
-    [session addInput:input];
     
-    AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc] init];
-    [output setSampleBufferDelegate:self queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
-    output.videoSettings =
-    [NSDictionary dictionaryWithObject:
-     [NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
-                                forKey:(id)kCVPixelBufferPixelFormatTypeKey];
-    [session addOutput:output];
+    if ([_captureSession canAddInput:videoInput]) {
+        [_captureSession addInput:videoInput]; // 添加到Session
+    }
+    if ([_captureSession canAddInput:audioInput]) {
+        [_captureSession addInput:audioInput]; // 添加到Session
+    }
+    // 配置采集输出，即我们取得视频图像的接口
+    _videoQueue = dispatch_queue_create("Video Capture Queue", DISPATCH_QUEUE_SERIAL);
+    _audioQueue = dispatch_queue_create("Audio Capture Queue", DISPATCH_QUEUE_SERIAL);
     
-    [session beginConfiguration];
-    session.sessionPreset = AVCaptureSessionPresetiFrame1280x720;
-    _connection = [output connectionWithMediaType:AVMediaTypeVideo];
+    _captureVideoOutput = [[AVCaptureVideoDataOutput alloc] init];
+    _captureAudioOutput = [[AVCaptureAudioDataOutput alloc] init];
+    
+    [_captureVideoOutput setSampleBufferDelegate:self queue:_videoQueue];
+    [_captureAudioOutput setSampleBufferDelegate:self queue:_audioQueue];
+    
+    // 配置输出视频图像格式
+    NSDictionary *captureSettings = @{(NSString*)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA)};
+    _captureVideoOutput.videoSettings = captureSettings;
+    _captureVideoOutput.alwaysDiscardsLateVideoFrames = YES;
+    if ([_captureSession canAddOutput:_captureVideoOutput]) {
+        [_captureSession addOutput:_captureVideoOutput];  // 添加到Session
+    }
+    
+    if ([_captureSession canAddOutput:_captureAudioOutput]) {
+//        [_captureSession addOutput:_captureAudioOutput]; // 添加到Session
+    }
+    // 保存Connection，用于在SampleBufferDelegate中判断数据来源（Video/Audio）
+    _videoConnection = [_captureVideoOutput connectionWithMediaType:AVMediaTypeVideo];
+    _audioConnection = [_captureAudioOutput connectionWithMediaType:AVMediaTypeAudio];
     [self setRelativeVideoOrientation];
-    [session commitConfiguration];
-    [session startRunning];
+    [_captureSession startRunning];
+}
 
-    _captureSession = session;
-    
-    //view
-    _previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+- (void)showPlayer {
+    _previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.captureSession];
     [_previewLayer setVideoGravity:AVLayerVideoGravityResizeAspect];
     
     _previewLayer.frame = CGRectMake(0, 120, 160, 300);
@@ -146,7 +212,14 @@
     [[LASessionSize sharedInstance] setWidth:(CGFloat)width height:(CGFloat)height];
     
     if(_isStartedEncoded == YES){
-        [_h264Encoder encode:sampleBuffer];
+        if (connection == self.videoConnection && self.captureVideoOutput == captureOutput) {
+            [_h264Encoder encode:sampleBuffer];
+        }
+        else {
+            [_aacEncoder encodeSampleBuffer:sampleBuffer completionBlock:^(NSData *encodedData, NSError *error) {
+                [_audioFileHandle writeData:encodedData];
+            }];
+        }
     }
 }
 
@@ -200,31 +273,21 @@
 -(void) startEncodeButtonClick{
     NSLog(@"%s",__func__);
     
-    // 获取系统当前时间
-    NSDate * date = [NSDate date];
-    NSTimeInterval sec = [date timeIntervalSinceNow];
-    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
-    
-    //设置时间输出格式：
-    NSDateFormatter * df = [[NSDateFormatter alloc] init ];
-    [df setDateFormat:@"HH-mm-ss"];
-    NSString * na = [df stringFromDate:currentDate];
-    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-//    _h264File = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.h264",na]];
     _h264File = [documentsDirectory stringByAppendingPathComponent:@"test_tomxiang.h264"];
-    
     [fileManager removeItemAtPath:_h264File error:nil];
     [fileManager createFileAtPath:_h264File contents:nil attributes:nil];
-    
-    // Open the file using POSIX as this is anyway a test application
-    //fd = open([h264File UTF8String], O_RDWR);
     _fileHandle = [NSFileHandle fileHandleForWritingAtPath:_h264File];
-    _isStartedEncoded = YES;
     
+    _aacFile = [documentsDirectory stringByAppendingPathComponent:@"test_tomxiang.aac"];
+    [fileManager removeItemAtPath:_aacFile error:nil];
+    [fileManager createFileAtPath:_aacFile contents:nil attributes:nil];
+    _audioFileHandle = [NSFileHandle fileHandleForWritingAtPath:_aacFile];
+    
+    _isStartedEncoded = YES;
 }
 
 -(void) stopEncodeButtonClick{
@@ -232,8 +295,12 @@
     _isStartedEncoded = NO;
     [_h264Encoder stopEncoder];
     [_h264Decoder stopDecoder];
+    
     [_fileHandle closeFile];
     _fileHandle = NULL;
+    
+    [_audioFileHandle closeFile];
+    _audioFileHandle = NULL;
 }
 
 - (void)closeVCClick{
@@ -247,17 +314,17 @@
 #if defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
         case UIInterfaceOrientationUnknown:
 #endif
-            _connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+            _videoConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
             break;
         case UIInterfaceOrientationPortraitUpsideDown:
-            _connection.videoOrientation =
+            _videoConnection.videoOrientation =
             AVCaptureVideoOrientationPortraitUpsideDown;
             break;
         case UIInterfaceOrientationLandscapeLeft:
-            _connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+            _videoConnection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
             break;
         case UIInterfaceOrientationLandscapeRight:
-            _connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+            _videoConnection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
             break;
         default:
             break;

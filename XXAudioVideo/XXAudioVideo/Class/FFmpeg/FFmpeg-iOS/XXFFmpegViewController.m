@@ -19,8 +19,14 @@ extern "C" {
 #ifdef __cplusplus
 };
 #endif
-@interface XXFFmpegViewController ()
 
+#import "XXFileDecodeView.h"
+#import "Masonry.h"
+
+@interface XXFFmpegViewController ()<XXFileDecodeViewDelegate>
+{
+    XXFileDecodeView   *_beautyMenuView;
+}
 @end
 
 @implementation XXFFmpegViewController
@@ -28,13 +34,35 @@ extern "C" {
 - (void)viewDidLoad {
     [super viewDidLoad];
     av_register_all();
+    
+    [self initViews];
+}
+-(void)dealloc{
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) initViews{
+    self.view.backgroundColor = [UIColor yellowColor];
+    _beautyMenuView = [[XXFileDecodeView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:_beautyMenuView];
+    _beautyMenuView.delegate = self;
+    [_beautyMenuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.bottom.equalTo(self.view);
+        make.height.mas_equalTo(100);
+    }];
 }
 
+#pragma mark- XXFileDecodeViewDelegate
+- (void)startDecodeButtonClick{
+    
+}
+- (void)stopDecodeButtonClick{
+    
+}
+- (void)closeVCClick{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 /*
 #pragma mark - Navigation
 

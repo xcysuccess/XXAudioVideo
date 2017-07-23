@@ -142,13 +142,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XXAudioVideo/Class/FileDecodeVC/XXFileDecodeViewController.m"
-            timestampString = "521090966.859629"
+            timestampString = "522295414.773361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "73"
             endingLineNumber = "73"
             landmarkName = "-displayDecodedFrame:"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XXAudioVideo/Class/H264/Encode/H264HwEncoderImpl.m"
+            timestampString = "522320170.852059"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "didCompressH264"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
