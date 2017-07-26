@@ -157,14 +157,30 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XXAudioVideo/Class/H264/Encode/H264HwEncoderImpl.m"
-            timestampString = "522320170.852059"
+            filePath = "XXAudioVideo/Class/H265/Encode/H265HwEncoderImpl.m"
+            timestampString = "522748004.258746"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "didCompressH264"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "didCompressH265"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XXAudioVideo/Class/H265/Encode/H265HwEncoderImpl.m"
+            timestampString = "522748004.258989"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "-encode:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
