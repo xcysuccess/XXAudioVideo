@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A7603851F288E1F00CAA2E3 /* XXFFmpegManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A7603841F288E1F00CAA2E3 /* XXFFmpegManager.m */; };
+		9A1981691F2B6BD800C37080 /* XXFFmpegManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1981651F2B6BD800C37080 /* XXFFmpegManager.m */; };
+		9A19816A1F2B6BD800C37080 /* XXFFmpegManagerD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1981671F2B6BD800C37080 /* XXFFmpegManagerD.m */; };
+		9A1981701F2B6CDF00C37080 /* XXManagerCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A19816F1F2B6CDF00C37080 /* XXManagerCore.m */; };
+		9A1981731F2B6CEE00C37080 /* XXFFmpegRemuxer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1981721F2B6CEE00C37080 /* XXFFmpegRemuxer.m */; };
 		9A7603871F288E7800CAA2E3 /* FFmpegTest.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 9A7603861F288E7800CAA2E3 /* FFmpegTest.yuv */; };
-		9A76039D1F2A1C6F00CAA2E3 /* XXFFmpegManagerD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A76039C1F2A1C6F00CAA2E3 /* XXFFmpegManagerD.m */; };
 		9A76039F1F2B1CE000CAA2E3 /* sintel.mov in Resources */ = {isa = PBXBuildFile; fileRef = 9A76039E1F2B1CDF00CAA2E3 /* sintel.mov */; };
 		9A9589E81F21959B006ABF63 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9589E71F219595006ABF63 /* libx264.a */; };
 		9A9589F11F21AD31006ABF63 /* AACHwEncoderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9589F01F21AD31006ABF63 /* AACHwEncoderImpl.m */; };
@@ -273,11 +275,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9A7603831F288E1F00CAA2E3 /* XXFFmpegManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXFFmpegManager.h; sourceTree = "<group>"; };
-		9A7603841F288E1F00CAA2E3 /* XXFFmpegManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegManager.m; sourceTree = "<group>"; };
+		9A1981641F2B6BD800C37080 /* XXFFmpegManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXFFmpegManager.h; sourceTree = "<group>"; };
+		9A1981651F2B6BD800C37080 /* XXFFmpegManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegManager.m; sourceTree = "<group>"; };
+		9A1981661F2B6BD800C37080 /* XXFFmpegManagerD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXFFmpegManagerD.h; sourceTree = "<group>"; };
+		9A1981671F2B6BD800C37080 /* XXFFmpegManagerD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegManagerD.m; sourceTree = "<group>"; };
+		9A19816E1F2B6CDF00C37080 /* XXManagerCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXManagerCore.h; sourceTree = "<group>"; };
+		9A19816F1F2B6CDF00C37080 /* XXManagerCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXManagerCore.m; sourceTree = "<group>"; };
+		9A1981711F2B6CEE00C37080 /* XXFFmpegRemuxer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXFFmpegRemuxer.h; sourceTree = "<group>"; };
+		9A1981721F2B6CEE00C37080 /* XXFFmpegRemuxer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegRemuxer.m; sourceTree = "<group>"; };
 		9A7603861F288E7800CAA2E3 /* FFmpegTest.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FFmpegTest.yuv; sourceTree = "<group>"; };
-		9A76039B1F2A1C6F00CAA2E3 /* XXFFmpegManagerD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXFFmpegManagerD.h; sourceTree = "<group>"; };
-		9A76039C1F2A1C6F00CAA2E3 /* XXFFmpegManagerD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegManagerD.m; sourceTree = "<group>"; };
 		9A76039E1F2B1CDF00CAA2E3 /* sintel.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = sintel.mov; sourceTree = "<group>"; };
 		9A9589E41F219595006ABF63 /* x264.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x264.h; sourceTree = "<group>"; };
 		9A9589E51F219595006ABF63 /* x264_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x264_config.h; sourceTree = "<group>"; };
@@ -906,6 +912,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A1981631F2B6BD800C37080 /* managercore */ = {
+			isa = PBXGroup;
+			children = (
+				9A19816E1F2B6CDF00C37080 /* XXManagerCore.h */,
+				9A19816F1F2B6CDF00C37080 /* XXManagerCore.m */,
+				9A1981641F2B6BD800C37080 /* XXFFmpegManager.h */,
+				9A1981651F2B6BD800C37080 /* XXFFmpegManager.m */,
+				9A1981661F2B6BD800C37080 /* XXFFmpegManagerD.h */,
+				9A1981671F2B6BD800C37080 /* XXFFmpegManagerD.m */,
+			);
+			path = managercore;
+			sourceTree = "<group>";
+		};
+		9A1981681F2B6BD800C37080 /* manageothers */ = {
+			isa = PBXGroup;
+			children = (
+				9A1981711F2B6CEE00C37080 /* XXFFmpegRemuxer.h */,
+				9A1981721F2B6CEE00C37080 /* XXFFmpegRemuxer.m */,
+			);
+			path = manageothers;
+			sourceTree = "<group>";
+		};
 		9A9589E21F219595006ABF63 /* x264-iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -1585,14 +1613,12 @@
 		9AD09C201F1F7B9D00125705 /* FFmpeg-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9A1981681F2B6BD800C37080 /* manageothers */,
+				9A1981631F2B6BD800C37080 /* managercore */,
 				9AD09C211F1F7B9D00125705 /* include */,
 				9AD09C961F1F7B9D00125705 /* lib */,
 				9AD09CB41F1F7BF500125705 /* XXFFmpegViewController.h */,
 				9AD09CB51F1F7BF500125705 /* XXFFmpegViewController.m */,
-				9A7603831F288E1F00CAA2E3 /* XXFFmpegManager.h */,
-				9A7603841F288E1F00CAA2E3 /* XXFFmpegManager.m */,
-				9A76039B1F2A1C6F00CAA2E3 /* XXFFmpegManagerD.h */,
-				9A76039C1F2A1C6F00CAA2E3 /* XXFFmpegManagerD.m */,
 			);
 			path = "FFmpeg-iOS";
 			sourceTree = "<group>";
@@ -2016,6 +2042,7 @@
 				9AA395E71F00B3D100F96402 /* GPUImageFilterPipeline.m in Sources */,
 				9AA394411F00ADE800F96402 /* MASConstraint.m in Sources */,
 				9AA3960E1F00B3D100F96402 /* GPUImageLuminosity.m in Sources */,
+				9A1981701F2B6CDF00C37080 /* XXManagerCore.m in Sources */,
 				9AA396491F00B3D100F96402 /* GPUImageThreeInputFilter.m in Sources */,
 				9AA395FF1F00B3D100F96402 /* GPUImageiOSBlurFilter.m in Sources */,
 				9AA394481F00ADE800F96402 /* View+MASAdditions.m in Sources */,
@@ -2088,7 +2115,7 @@
 				9AA396521F00B3D100F96402 /* GPUImageTwoInputFilter.m in Sources */,
 				9AA396021F00B3D100F96402 /* GPUImageKuwaharaRadius3Filter.m in Sources */,
 				9AA3964B1F00B3D100F96402 /* GPUImageThresholdedNonMaximumSuppressionFilter.m in Sources */,
-				9A7603851F288E1F00CAA2E3 /* XXFFmpegManager.m in Sources */,
+				9A1981691F2B6BD800C37080 /* XXFFmpegManager.m in Sources */,
 				9AA396641F00B3D100F96402 /* GPUImageView.m in Sources */,
 				9AA395BB1F00B3D100F96402 /* GPUImageAddBlendFilter.m in Sources */,
 				9AA393881F00ADE800F96402 /* UIProgressView+AFNetworking.m in Sources */,
@@ -2170,6 +2197,7 @@
 				9AB7DF031F0A1F5200AC3463 /* H264HwEncoderImpl.m in Sources */,
 				9AA396601F00B3D100F96402 /* GPUImageContext.m in Sources */,
 				9AA395EC1F00B3D100F96402 /* GPUImageGaussianBlurFilter.m in Sources */,
+				9A1981731F2B6CEE00C37080 /* XXFFmpegRemuxer.m in Sources */,
 				9AA394491F00ADE800F96402 /* ViewController+MASAdditions.m in Sources */,
 				9AA396291F00B3D100F96402 /* GPUImagePosterizeFilter.m in Sources */,
 				9AA3937B1F00ADE800F96402 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2199,7 +2227,7 @@
 				9AA395CB1F00B3D100F96402 /* GPUImageColorBurnBlendFilter.m in Sources */,
 				9AA3965C1F00B3D100F96402 /* GPUImageWhiteBalanceFilter.m in Sources */,
 				9AA3964C1F00B3D100F96402 /* GPUImageThresholdSketchFilter.m in Sources */,
-				9A76039D1F2A1C6F00CAA2E3 /* XXFFmpegManagerD.m in Sources */,
+				9A19816A1F2B6BD800C37080 /* XXFFmpegManagerD.m in Sources */,
 				9AA396111F00B3D100F96402 /* GPUImageMedianFilter.m in Sources */,
 				9AA3963F1F00B3D100F96402 /* GPUImageSolarizeFilter.m in Sources */,
 				9AA3962B1F00B3D100F96402 /* GPUImageRawDataInput.m in Sources */,

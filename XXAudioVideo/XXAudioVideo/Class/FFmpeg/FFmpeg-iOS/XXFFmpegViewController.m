@@ -22,14 +22,11 @@ extern "C" {
 
 #import "XXFileDecodeView.h"
 #import "Masonry.h"
-#import "XXFFmpegManager.h"
-#import "XXFFmpegManagerD.h"
+#import "XXManagerCore.h"
 
 @interface XXFFmpegViewController ()<XXFileDecodeViewDelegate>
 {
     XXFileDecodeView   *_beautyMenuView;
-    XXFFmpegManager    *_ffmpegManager;
-    XXFFmpegManagerD   *_ffmpegManager2;
 }
 @end
 
@@ -37,10 +34,8 @@ extern "C" {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    av_register_all();
     
     [self initViews];
-    [self initData];
 }
 -(void)dealloc{
 }
@@ -56,21 +51,18 @@ extern "C" {
     }];
 }
 
-- (void) initData{
-    _ffmpegManager = [[XXFFmpegManager alloc] init];
-    _ffmpegManager2 = [[XXFFmpegManagerD alloc] init];
-}
 
 #pragma mark- XXFileDecodeViewDelegate
 - (void)startDecodeButtonClick{
-    [_ffmpegManager yuvCodecToVideoH264];
+    NSString *moveString = [[NSBundle mainBundle] pathForResource:@"sintel" ofType:@"mov"];
+    [[XXManagerCore sharedInstance].remuxer movToFlv:moveString];
 }
+
 - (void)stopDecodeButtonClick{
-    
 }
+
 - (void)closeVCClick{
-    [self dismissViewControllerAnimated:YES completion:^{
-        
+    [self dismissViewControllerAnimated:YES completion:^{        
     }];
 }
 /*
