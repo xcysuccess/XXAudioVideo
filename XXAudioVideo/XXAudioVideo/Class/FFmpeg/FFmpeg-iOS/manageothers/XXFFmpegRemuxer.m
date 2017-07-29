@@ -97,12 +97,12 @@ extern "C" {
         return;
     }
     //2.2.avformat_find_stream_info
-    if((ret = avformat_find_stream_info(pInFormatContext, 0))<0){
+    if((ret = avformat_find_stream_info(pInFormatContext, 0))<0){ //获取媒体信息
         printf("Failed to retrieve input stream information!");
         [self gotoEnd];
         return;
     }
-    av_dump_format(pInFormatContext, 0, in_filename, 0);       //输入格式的详细数据,例如时间,比特率,数据流,容器,元数据,辅助数据,编码,时间戳等
+    av_dump_format(pInFormatContext, 0, in_filename, 0);       //打印: 输入格式的详细数据,例如时间,比特率,数据流,容器,元数据,辅助数据,编码,时间戳等
     
     //3.初始化输出码流的AVFormatContext。
     avformat_alloc_output_context2(&pOutFormatContext, NULL, NULL, out_filename);
@@ -126,8 +126,8 @@ extern "C" {
             return;
         }
         //4.3.为输出文件设置编码所需要的参数和格式,一个AVStream对应一个AVCodecContext
-        AVCodecContext *pCodeContext = avcodec_alloc_context3(codec);
-        ret = avcodec_parameters_to_context(pCodeContext, in_stream->codecpar);
+        AVCodecContext *pOutCodeContext = avcodec_alloc_context3(codec);
+        ret = avcodec_parameters_to_context(pOutCodeContext, in_stream->codecpar);
         //        ret = avcodec_parameters_from_context(in_stream->codecpar, pCodeContext);//将AVCodecContext的成员复制到AVCodecParameters结构体。前后两行不能调换顺序
         if (ret < 0) {
             printf("Failed to copy context input to output stream codec context\n");
@@ -135,19 +135,19 @@ extern "C" {
             return;
         }
         
-        pCodeContext->codec_tag = 0;
+        pOutCodeContext->codec_tag = 0;
         if (pOutFormatContext->oformat->flags & AVFMT_GLOBALHEADER) {
-            pCodeContext->flags |= CODEC_FLAG_GLOBAL_HEADER;
+            pOutCodeContext->flags |= CODEC_FLAG_GLOBAL_HEADER;
         }
         
-        ret = avcodec_parameters_from_context(out_stream->codecpar, pCodeContext);
+        ret = avcodec_parameters_from_context(out_stream->codecpar, pOutCodeContext);
         if (ret < 0) {
             printf("Failed to copy context input to output stream codec context\n");
             [self gotoEnd];
             return;
         }
     }
-    av_dump_format(pOutFormatContext, 0, out_filename, 1);       //输出格式的详细数据,例如时间,比特率,数据流,容器,元数据,辅助数据,编码,时间戳等
+    av_dump_format(pOutFormatContext, 0, out_filename, 1);       //打印:输出格式的详细数据,例如时间,比特率,数据流,容器,元数据,辅助数据,编码,时间戳等
     
     //5.avio_open 打开输出文件,将输出文件中的数据读入到程序的 buffer 当中
     if (!(outputFormat->flags & AVFMT_NOFILE)) {
