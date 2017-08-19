@@ -1,5 +1,5 @@
 //
-//  XXFFmpegManager.m
+//  XXFFmpegYuvToH264.m
 //  XXAudioVideo
 //
 //  Created by tomxiang on 2017/7/26.
@@ -12,7 +12,7 @@
 //  http://www.jianshu.com/p/73520393d794 转文件格式
 //  http://blog.csdn.net/leixiaohua1020/article/details/25422685
 
-#import "XXFFmpegManager.h"
+#import "XXFFmpegYuvToH264.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -28,7 +28,7 @@ extern "C" {
 #endif
 #define IS_FFMPEG_VERSION_1 (1)
 
-@interface XXFFmpegManager()
+@interface XXFFmpegYuvToH264()
 {
     AVFormatContext *pInFormatContext;  //数据文件操作者,用于存储音视频封装格式中包含的信息。解封装格式的结构体
     AVFormatContext *pOutFormatContext;
@@ -55,7 +55,7 @@ extern "C" {
 @end
 
 
-@implementation XXFFmpegManager
+@implementation XXFFmpegYuvToH264
 
 -(instancetype)init{
     if(self = [super init]){

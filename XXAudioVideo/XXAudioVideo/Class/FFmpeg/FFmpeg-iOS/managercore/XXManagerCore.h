@@ -8,11 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "XXFFmpegRemuxer.h"
+#import "XXFFmpegDecoder.h"
 
 @interface XXManagerCore : NSObject
 
 +(instancetype)sharedInstance;
 
 @property(nonatomic,strong) XXFFmpegRemuxer *remuxer;
+
+@property(nonatomic,strong) XXFFmpegDecoder *decoder;
 
 @end

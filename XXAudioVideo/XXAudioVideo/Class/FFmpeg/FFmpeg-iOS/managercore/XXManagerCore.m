@@ -22,6 +22,7 @@
 -(instancetype)init{
     if(self = [super init]){
         _remuxer = [[XXFFmpegRemuxer alloc] init];
+        _decoder = [[XXFFmpegDecoder alloc] init];
     }
     return self;
 }

@@ -11,8 +11,9 @@
 #import "XXFileDecodeViewController.h"
 #import "XXH265CameraViewController.h"
 #import "XXFFmpegViewController.h"
-#import "LAScreenEx.h"
+#import "XXFFmpegDecoderViewController.h"
 
+#import "LAScreenEx.h"
 
 #define BASECELLIDENDIFIFY @"BASE_CELL_IDENDIFIFY"
 
@@ -27,7 +28,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:
-                             @"H264实时编解码", @"H264文件解码", @"H265编解码", @"H264软编解码",nil];
+                             @"H264实时编解码", @"H264文件解码", @"H265编解码", @"H264纯净版格式转换", @"H264解码H.264变yuv", nil];
     self.listArray = array;
     
 }
@@ -112,6 +113,12 @@
             }];
         }
             break;
+        case 4:{
+            XXFFmpegDecoderViewController *decoderVC = [[XXFFmpegDecoderViewController alloc] init];
+            [self presentViewController:decoderVC animated:YES completion:^{
+                
+            }];
+                    }
         default:
             break;
     }

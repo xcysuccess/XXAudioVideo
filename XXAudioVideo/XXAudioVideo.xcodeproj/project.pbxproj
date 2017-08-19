@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A1981691F2B6BD800C37080 /* XXFFmpegManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1981651F2B6BD800C37080 /* XXFFmpegManager.m */; };
+		9A1981691F2B6BD800C37080 /* XXFFmpegYuvToH264.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1981651F2B6BD800C37080 /* XXFFmpegYuvToH264.m */; };
 		9A19816A1F2B6BD800C37080 /* XXFFmpegManagerD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1981671F2B6BD800C37080 /* XXFFmpegManagerD.m */; };
 		9A1981701F2B6CDF00C37080 /* XXManagerCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A19816F1F2B6CDF00C37080 /* XXManagerCore.m */; };
 		9A1981731F2B6CEE00C37080 /* XXFFmpegRemuxer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1981721F2B6CEE00C37080 /* XXFFmpegRemuxer.m */; };
 		9A7603871F288E7800CAA2E3 /* FFmpegTest.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 9A7603861F288E7800CAA2E3 /* FFmpegTest.yuv */; };
 		9A76039F1F2B1CE000CAA2E3 /* sintel.mov in Resources */ = {isa = PBXBuildFile; fileRef = 9A76039E1F2B1CDF00CAA2E3 /* sintel.mov */; };
+		9A8D34331F480A6000EA0409 /* XXFFmpegDecoderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D34321F480A6000EA0409 /* XXFFmpegDecoderViewController.m */; };
 		9A9589E81F21959B006ABF63 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9589E71F219595006ABF63 /* libx264.a */; };
 		9A9589F11F21AD31006ABF63 /* AACHwEncoderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9589F01F21AD31006ABF63 /* AACHwEncoderImpl.m */; };
 		9A95C0311F04F77B00BB1662 /* LAScreenEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A95C0301F04F77B00BB1662 /* LAScreenEx.m */; };
@@ -236,6 +237,7 @@
 		9AB7DF011F0A1F4F00AC3463 /* AAPLEAGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEFD1F0A1EEB00AC3463 /* AAPLEAGLLayer.m */; };
 		9AB7DF021F0A1F5000AC3463 /* H264HwDecoderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEF91F0A1EEB00AC3463 /* H264HwDecoderImpl.m */; };
 		9AB7DF031F0A1F5200AC3463 /* H264HwEncoderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7DEF31F0A1EB000AC3463 /* H264HwEncoderImpl.m */; };
+		9AB8557C1F44728200E06996 /* XXFFmpegDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB8557B1F44728200E06996 /* XXFFmpegDecoder.m */; };
 		9AD09C9F1F1F7B9D00125705 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD09C971F1F7B9D00125705 /* libavcodec.a */; };
 		9AD09CA01F1F7B9D00125705 /* libavdevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD09C981F1F7B9D00125705 /* libavdevice.a */; };
 		9AD09CA11F1F7B9D00125705 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD09C991F1F7B9D00125705 /* libavfilter.a */; };
@@ -275,8 +277,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9A1981641F2B6BD800C37080 /* XXFFmpegManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXFFmpegManager.h; sourceTree = "<group>"; };
-		9A1981651F2B6BD800C37080 /* XXFFmpegManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegManager.m; sourceTree = "<group>"; };
+		9A1981641F2B6BD800C37080 /* XXFFmpegYuvToH264.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXFFmpegYuvToH264.h; sourceTree = "<group>"; };
+		9A1981651F2B6BD800C37080 /* XXFFmpegYuvToH264.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegYuvToH264.m; sourceTree = "<group>"; };
 		9A1981661F2B6BD800C37080 /* XXFFmpegManagerD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXFFmpegManagerD.h; sourceTree = "<group>"; };
 		9A1981671F2B6BD800C37080 /* XXFFmpegManagerD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegManagerD.m; sourceTree = "<group>"; };
 		9A19816E1F2B6CDF00C37080 /* XXManagerCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXManagerCore.h; sourceTree = "<group>"; };
@@ -285,6 +287,8 @@
 		9A1981721F2B6CEE00C37080 /* XXFFmpegRemuxer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegRemuxer.m; sourceTree = "<group>"; };
 		9A7603861F288E7800CAA2E3 /* FFmpegTest.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FFmpegTest.yuv; sourceTree = "<group>"; };
 		9A76039E1F2B1CDF00CAA2E3 /* sintel.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = sintel.mov; sourceTree = "<group>"; };
+		9A8D34311F480A6000EA0409 /* XXFFmpegDecoderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXFFmpegDecoderViewController.h; sourceTree = "<group>"; };
+		9A8D34321F480A6000EA0409 /* XXFFmpegDecoderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegDecoderViewController.m; sourceTree = "<group>"; };
 		9A9589E41F219595006ABF63 /* x264.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x264.h; sourceTree = "<group>"; };
 		9A9589E51F219595006ABF63 /* x264_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x264_config.h; sourceTree = "<group>"; };
 		9A9589E71F219595006ABF63 /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libx264.a; sourceTree = "<group>"; };
@@ -738,6 +742,8 @@
 		9AB7DEFC1F0A1EEB00AC3463 /* VideoFileParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoFileParser.m; sourceTree = "<group>"; };
 		9AB7DEFD1F0A1EEB00AC3463 /* AAPLEAGLLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEAGLLayer.m; sourceTree = "<group>"; };
 		9AB7DEFE1F0A1EEB00AC3463 /* AAPLEAGLLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLEAGLLayer.h; sourceTree = "<group>"; };
+		9AB8557A1F44728200E06996 /* XXFFmpegDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXFFmpegDecoder.h; sourceTree = "<group>"; };
+		9AB8557B1F44728200E06996 /* XXFFmpegDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXFFmpegDecoder.m; sourceTree = "<group>"; };
 		9AD09C231F1F7B9D00125705 /* avcodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avcodec.h; sourceTree = "<group>"; };
 		9AD09C241F1F7B9D00125705 /* avdct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avdct.h; sourceTree = "<group>"; };
 		9AD09C251F1F7B9D00125705 /* avfft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avfft.h; sourceTree = "<group>"; };
@@ -917,8 +923,8 @@
 			children = (
 				9A19816E1F2B6CDF00C37080 /* XXManagerCore.h */,
 				9A19816F1F2B6CDF00C37080 /* XXManagerCore.m */,
-				9A1981641F2B6BD800C37080 /* XXFFmpegManager.h */,
-				9A1981651F2B6BD800C37080 /* XXFFmpegManager.m */,
+				9A1981641F2B6BD800C37080 /* XXFFmpegYuvToH264.h */,
+				9A1981651F2B6BD800C37080 /* XXFFmpegYuvToH264.m */,
 				9A1981661F2B6BD800C37080 /* XXFFmpegManagerD.h */,
 				9A1981671F2B6BD800C37080 /* XXFFmpegManagerD.m */,
 			);
@@ -930,6 +936,8 @@
 			children = (
 				9A1981711F2B6CEE00C37080 /* XXFFmpegRemuxer.h */,
 				9A1981721F2B6CEE00C37080 /* XXFFmpegRemuxer.m */,
+				9AB8557A1F44728200E06996 /* XXFFmpegDecoder.h */,
+				9AB8557B1F44728200E06996 /* XXFFmpegDecoder.m */,
 			);
 			path = manageothers;
 			sourceTree = "<group>";
@@ -1619,6 +1627,8 @@
 				9AD09C961F1F7B9D00125705 /* lib */,
 				9AD09CB41F1F7BF500125705 /* XXFFmpegViewController.h */,
 				9AD09CB51F1F7BF500125705 /* XXFFmpegViewController.m */,
+				9A8D34311F480A6000EA0409 /* XXFFmpegDecoderViewController.h */,
+				9A8D34321F480A6000EA0409 /* XXFFmpegDecoderViewController.m */,
 			);
 			path = "FFmpeg-iOS";
 			sourceTree = "<group>";
@@ -2080,6 +2090,7 @@
 				9AA395FE1F00B3D100F96402 /* GPUImageHueFilter.m in Sources */,
 				9AA3963B1F00B3D100F96402 /* GPUImageSmoothToonFilter.m in Sources */,
 				9AA3961E1F00B3D100F96402 /* GPUImageOpeningFilter.m in Sources */,
+				9AB8557C1F44728200E06996 /* XXFFmpegDecoder.m in Sources */,
 				9AA3937E1F00ADE800F96402 /* AFURLResponseSerialization.m in Sources */,
 				9AA3960A1F00B3D100F96402 /* GPUImageLookupFilter.m in Sources */,
 				9AA396211F00B3D100F96402 /* GPUImageParallelCoordinateLineTransformFilter.m in Sources */,
@@ -2115,7 +2126,7 @@
 				9AA396521F00B3D100F96402 /* GPUImageTwoInputFilter.m in Sources */,
 				9AA396021F00B3D100F96402 /* GPUImageKuwaharaRadius3Filter.m in Sources */,
 				9AA3964B1F00B3D100F96402 /* GPUImageThresholdedNonMaximumSuppressionFilter.m in Sources */,
-				9A1981691F2B6BD800C37080 /* XXFFmpegManager.m in Sources */,
+				9A1981691F2B6BD800C37080 /* XXFFmpegYuvToH264.m in Sources */,
 				9AA396641F00B3D100F96402 /* GPUImageView.m in Sources */,
 				9AA395BB1F00B3D100F96402 /* GPUImageAddBlendFilter.m in Sources */,
 				9AA393881F00ADE800F96402 /* UIProgressView+AFNetworking.m in Sources */,
@@ -2199,6 +2210,7 @@
 				9AA395EC1F00B3D100F96402 /* GPUImageGaussianBlurFilter.m in Sources */,
 				9A1981731F2B6CEE00C37080 /* XXFFmpegRemuxer.m in Sources */,
 				9AA394491F00ADE800F96402 /* ViewController+MASAdditions.m in Sources */,
+				9A8D34331F480A6000EA0409 /* XXFFmpegDecoderViewController.m in Sources */,
 				9AA396291F00B3D100F96402 /* GPUImagePosterizeFilter.m in Sources */,
 				9AA3937B1F00ADE800F96402 /* AFNetworkReachabilityManager.m in Sources */,
 				9AA395C31F00B3D100F96402 /* GPUImageBuffer.m in Sources */,
@@ -2395,7 +2407,7 @@
 				DEVELOPMENT_TEAM = N4S5894589;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = XXAudioVideo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2415,7 +2427,7 @@
 				DEVELOPMENT_TEAM = N4S5894589;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = XXAudioVideo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
