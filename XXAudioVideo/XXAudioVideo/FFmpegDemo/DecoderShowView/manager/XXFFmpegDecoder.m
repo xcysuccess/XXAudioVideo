@@ -7,6 +7,8 @@
 //  http://www.jianshu.com/p/72c2119a4136
 //  https://my.oschina.net/u/555701/blog/56616
 //  http://www.cnblogs.com/sunminmin/p/4469617.html
+//  http://blog.csdn.net/leixiaohua1020/article/details/47072257
+//  http://blog.csdn.net/MandyLover/article/details/52946083
 
 #import "XXFFmpegDecoder.h"
 #ifdef __cplusplus
@@ -18,6 +20,7 @@ extern "C" {
 #include "libavformat/avformat.h"
 #include "libavutil/imgutils.h"
 #include "libavutil/avstring.h"
+#include "libswscale/swscale.h"
     
 #ifdef __cplusplus
 };
@@ -93,20 +96,21 @@ extern "C" {
     int ret;
     unsigned char *out_buffer_video;
     FILE *fp_yuv;
-    
+    struct SwsContext *img_convert_ctx;
+    pFormatCtx = avformat_alloc_context();
+
     //1.注册FFmpeg所有编解码器。
     av_register_all();
-    
+    avformat_network_init();
+
     //2.avformat_open_input
     if((ret = avformat_open_input(&pFormatCtx, in_filename, 0, 0))<0){
         printf("Could not open input file!");
-        [self gotoEnd];
         return;
     }
     //3.avformat_find_stream_info
     if((ret = avformat_find_stream_info(pFormatCtx, 0))<0){ //获取媒体信息
         printf("Failed to retrieve input stream information!");
-        [self gotoEnd];
         return;
     }
     av_dump_format(pFormatCtx, 0, in_filename, 0);       //打印: 输入格式的详细数据,例如时间,比特率,数据流,容器,元数据,辅助数据,编码,时间戳等
@@ -160,52 +164,83 @@ extern "C" {
     out_buffer_video = (unsigned char*)av_malloc((size_t)av_image_get_buffer_size(AV_PIX_FMT_YUV420P,pCodecCtx->width,pCodecCtx->height,1));
     
     av_image_fill_arrays(pFrameYUV->data, pFrameYUV->linesize, out_buffer_video, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, 1);
-    int i = 0;
     fp_yuv = fopen(out_filename, "wb+");
+    
+    int frame_cnt = 0;
+    img_convert_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt,
+                                     pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P,
+                                     SWS_BICUBIC, NULL, NULL, NULL);
+    av_dump_format(pFormatCtx, 0, in_filename, 0);       //打印: 输入格式的详细数据,例如时间,比特率,数据流,容器,元数据,辅助数据,编码,时间戳等
+
     while( av_read_frame(pFormatCtx, pPacket) >= 0 ) {
         if(pPacket->stream_index == videoindex){
             //Decode::http://xiacaojun.blog.51cto.com/12016059/1932665
             ret = avcodec_send_packet(pCodecCtx, pPacket);
             if(ret != 0){
+                printf("Decode Error.\n");
                 return;
             }
             while( avcodec_receive_frame(pCodecCtx, pFrame) == 0)
             {
-                UIImage *image = [self imageFromAVFrame:pFrame];
-//                int y_size = pCodecCtx->width * pCodecCtx->height;
-                NSLog(@"Decode 第%d帧", i++);
-//                fwrite(pFrameYUV->data[0], 1, y_size, fp_yuv);      //Y
-//                fwrite(pFrameYUV->data[1], 1, y_size / 4, fp_yuv);  //U
-//                fwrite(pFrameYUV->data[2], 1, y_size / 4, fp_yuv);  //V
-//                char *buf = (char *)malloc(pFrame->width * pFrame->height * 3 / 2);
-//
-//                AVPicture *pict;
-//                int w, h;
-//                char *y, *u, *v;
-//                pict = (AVPicture *)pFrame;//这里的frame就是解码出来的AVFrame
-//                w = pFrame->width;
-//                h = pFrame->height;
-//                y = buf;
-//                u = y + w * h;
-//                v = u + w * h / 4;
-//
-//                for (int i=0; i<h; i++)
-//                    memcpy(y + w * i, pict->data[0] + pict->linesize[0] * i, w);
-//                for (int i=0; i<h/2; i++)
-//                    memcpy(u + w / 2 * i, pict->data[1] + pict->linesize[1] * i, w / 2);
-//                for (int i=0; i<h/2; i++)
-//                    memcpy(v + w / 2 * i, pict->data[2] + pict->linesize[2] * i, w / 2);
-//
-//                [myview setVideoSize:pFrame->width height:pFrame->height];
-//                [myview displayYUV420pData:buf width:pFrame->width height:pFrame->height]; //利用OpenGLES渲染YUV
-//                free(buf);
+                sws_scale(img_convert_ctx, (const uint8_t *const *) pFrame->data, pFrame->linesize,
+                          0,
+                          pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
+                int y_size = pCodecCtx->width * pCodecCtx->height;
+                fwrite(pFrameYUV->data[0], 1, y_size, fp_yuv);      //Y
+                fwrite(pFrameYUV->data[1], 1, y_size / 4, fp_yuv);  //U
+                fwrite(pFrameYUV->data[2], 1, y_size / 4, fp_yuv);  //V
+
+                //Output info
+                char pictype_str[10]={0};
+                switch(pFrame->pict_type){
+                    case AV_PICTURE_TYPE_I:sprintf(pictype_str,"I");break;
+                    case AV_PICTURE_TYPE_P:sprintf(pictype_str,"P");break;
+                    case AV_PICTURE_TYPE_B:sprintf(pictype_str,"B");break;
+                    default:sprintf(pictype_str,"Other");break;
+                }
+                
+                [self showtoOpenGLView];
+                printf("Frame Index: %5d. Type:%s\n",frame_cnt,pictype_str);
+                frame_cnt++;
             }
-         }
-        av_packet_unref(pPacket);
+            av_packet_unref(pPacket);
+        }
     }
-    
+        
+    //flush decoder
+    //FIX: Flush Frames remained in Codec
+    while (1) {
+        ret = avcodec_send_packet(pCodecCtx, pPacket);
+        if (ret < 0)
+            break;
+
+        while( avcodec_receive_frame(pCodecCtx, pFrame) == 0){
+            sws_scale(img_convert_ctx, (const uint8_t* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height,
+                      pFrameYUV->data, pFrameYUV->linesize);
+            int y_size=pCodecCtx->width*pCodecCtx->height;
+            fwrite(pFrameYUV->data[0],1,y_size,fp_yuv);    //Y
+            fwrite(pFrameYUV->data[1],1,y_size/4,fp_yuv);  //U
+            fwrite(pFrameYUV->data[2],1,y_size/4,fp_yuv);  //V
+            //Output info
+            char pictype_str[10]={0};
+            switch(pFrame->pict_type){
+                case AV_PICTURE_TYPE_I:sprintf(pictype_str,"I");break;
+                case AV_PICTURE_TYPE_P:sprintf(pictype_str,"P");break;
+                case AV_PICTURE_TYPE_B:sprintf(pictype_str,"B");break;
+                default:sprintf(pictype_str,"Other");break;
+            }
+            
+            [self showtoOpenGLView];
+            printf("Frame Index: %5d. Type:%s\n",frame_cnt,pictype_str);
+            frame_cnt++;
+        }
+    }
+
+    sws_freeContext(img_convert_ctx);
     fclose(fp_yuv);
-    av_free(&pFrameYUV);
+    av_frame_free(&pFrameYUV);
+    av_frame_free(&pFrame);
+
     [self gotoEnd];
 }
 
@@ -214,8 +249,6 @@ extern "C" {
     
     int ret = 0;
     
-    avformat_close_input(&pFormatCtx);
-    
     avcodec_close(pCodecCtx);
     avformat_close_input(&pFormatCtx);
 
@@ -223,36 +256,32 @@ extern "C" {
         printf("Error occurred.\n");
         return;
     }
+    NSLog(@"Finish decoder!");
+    
 }
-- (UIImage*)imageFromAVFrame:(AVFrame *)avFrame
-{
-    float width = avFrame->width;
-    float height = avFrame->height;
 
+-(void) showtoOpenGLView{
+    char *buf = (char *)malloc(pFrame->width * pFrame->height * 3 / 2);
+    int w, h;
+    char *y, *u, *v;
+    w = pFrame->width;
+    h = pFrame->height;
+    y = buf;
+    u = y + w * h;
+    v = u + w * h / 4;
     
-    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
-    CFDataRef data = CFDataCreate(kCFAllocatorDefault, avFrame->data[0], avFrame->linesize[0] * height);
+    for (int i=0; i<h; i++)
+        memcpy(y + w * i,pFrame->data[0] + pFrame->linesize[0] * i, w);
+    for (int i=0; i<h/2; i++)
+        memcpy(u + w / 2 * i, pFrame->data[1] + pFrame->linesize[1] * i, w / 2);
+    for (int i=0; i<h/2; i++)
+        memcpy(v + w / 2 * i, pFrame->data[2] + pFrame->linesize[2] * i, w / 2);
     
-    CGDataProviderRef provider = CGDataProviderCreateWithCFData(data);
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGImageRef cgImage = CGImageCreate(width,
-                                       height,
-                                       8,
-                                       24,
-                                       avFrame->linesize[0],
-                                       colorSpace,
-                                       bitmapInfo,
-                                       provider,
-                                       NULL,
-                                       NO,
-                                       kCGRenderingIntentDefault);
-    UIImage *image = [UIImage imageWithCGImage:cgImage];
-    CGImageRelease(cgImage);
-    CGColorSpaceRelease(colorSpace);
-    CGDataProviderRelease(provider);
-    CFRelease(data);
-    
-    return image;
+    if(self.delegate){
+        [self.delegate setVideoSize:pFrame->width height:pFrame->height];
+        [self.delegate displayYUV420pData:buf width:pFrame->width height:pFrame->height];
+    }
+    free(buf);
 }
 
 @end

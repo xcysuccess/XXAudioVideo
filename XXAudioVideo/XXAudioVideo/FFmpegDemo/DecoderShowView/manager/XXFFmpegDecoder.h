@@ -10,7 +10,15 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 
+
+@protocol XXFFmpegDecoderImplDelegate <NSObject>
+- (void)setVideoSize:(GLuint)width height:(GLuint)height;
+- (void)displayYUV420pData:(void *)data width:(NSInteger)w height:(NSInteger)h;
+@end
+
 @interface XXFFmpegDecoder : NSObject
+
+@property(nonatomic,weak) id<XXFFmpegDecoderImplDelegate> delegate;
 
 -(void) decoderFile:(NSString*) filePath;
 

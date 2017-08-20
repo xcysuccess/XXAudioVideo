@@ -1,5 +1,5 @@
 //
-//  XXFFmpegViewController.h
+//  XXFFmpegRemuxerViewController.h
 //  XXAudioVideo
 //
 //  Created by tomxiang on 2017/7/19.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface XXFFmpegViewController : UIViewController
+@interface XXFFmpegRemuxerViewController : UIViewController
 
 @end

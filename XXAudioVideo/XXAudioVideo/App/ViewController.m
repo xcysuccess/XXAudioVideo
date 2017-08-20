@@ -7,10 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "XXCameraViewController.h"
+#import "XXCameraHardEncodeDecodeViewController.h"
 #import "XXFileDecodeViewController.h"
 #import "XXH265CameraViewController.h"
-#import "XXFFmpegViewController.h"
+#import "XXFFmpegRemuxerViewController.h"
 #import "XXFFmpegDecoderViewController.h"
 
 #import "LAScreenEx.h"
@@ -28,7 +28,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:
-                             @"H264实时编解码", @"H264文件解码", @"H265编解码", @"H264纯净版格式转换", @"H264解码H.264变yuv", nil];
+                             @"H264硬件-实时编解码",
+                             @"H264硬件-文件解码显示",
+                             @"H265硬件-编解码",
+                             @"H264FFmpeg-纯净版格式转换保存本地",
+                             @"H264FFmpeg-解码保存与显示", nil];
     self.listArray = array;
     
 }
@@ -85,43 +89,32 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UIViewController *viewController = nil;
     switch (indexPath.row) {
         case 0:{
-                XXCameraViewController *xxCameraVC = [[XXCameraViewController alloc] init];
-                [self presentViewController:xxCameraVC animated:YES completion:^{
-                }];
+                viewController = [[XXCameraHardEncodeDecodeViewController alloc] init];
             }
             break;
         case 1:{
-            XXFileDecodeViewController *xxFileVC = [[XXFileDecodeViewController alloc] init];
-            [self presentViewController:xxFileVC animated:YES completion:^{
-                
-            }];
-        }
+            viewController = [[XXFileDecodeViewController alloc] init];
+            }
             break;
         case 2:{
-            XXH265CameraViewController *h265VC = [[XXH265CameraViewController alloc] init];
-            [self presentViewController:h265VC animated:YES completion:^{
-                
-            }];
-        }
+            viewController = [[XXH265CameraViewController alloc] init];
+            }
             break;
         case 3:{
-            XXFFmpegViewController *ffmpegVC = [[XXFFmpegViewController alloc] init];
-            [self presentViewController:ffmpegVC animated:YES completion:^{
-                
-            }];
-        }
+            viewController = [[XXFFmpegRemuxerViewController alloc] init];
+            }
             break;
         case 4:{
-            XXFFmpegDecoderViewController *decoderVC = [[XXFFmpegDecoderViewController alloc] init];
-            [self presentViewController:decoderVC animated:YES completion:^{
-                
-            }];
-                    }
+            viewController = [[XXFFmpegDecoderViewController alloc] init];
+            }
         default:
             break;
     }
+    [self presentViewController:viewController animated:YES completion:^{
+    }];
     
 }
 

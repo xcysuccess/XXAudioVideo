@@ -6,7 +6,7 @@
 //  Copyright © 2016 tomxiang. All rights reserved.
 //
 
-#import "XXCameraViewController.h"
+#import "XXCameraHardEncodeDecodeViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "OSMOBeautyMenuView.h"
 #import "VideoFileParser.h"
@@ -18,7 +18,7 @@
 #import "AAPLEAGLLayer.h"
 #import "AACHwEncoderImpl.h"
 
-@interface XXCameraViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate,H264HwEncoderImplDelegate,H264HwDecoderImplDelegate,OSMOBeautyMenuViewDelegate>
+@interface XXCameraHardEncodeDecodeViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate,H264HwEncoderImplDelegate,H264HwDecoderImplDelegate,OSMOBeautyMenuViewDelegate>
 {
     NSFileHandle *_fileHandle;
     NSString *_h264File;
@@ -51,7 +51,7 @@
 @property (nonatomic , strong) AVCaptureVideoPreviewLayer *previewLayer;
 @end
 
-@implementation XXCameraViewController
+@implementation XXCameraHardEncodeDecodeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

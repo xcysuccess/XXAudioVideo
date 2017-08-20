@@ -6,7 +6,7 @@
 //  Copyright © 2017年 tomxiang. All rights reserved.
 //
 
-#import "XXFFmpegViewController.h"
+#import "XXFFmpegRemuxerViewController.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -24,13 +24,13 @@ extern "C" {
 #import "Masonry.h"
 #import "XXManagerCore.h"
 
-@interface XXFFmpegViewController ()<XXFileDecodeViewDelegate>
+@interface XXFFmpegRemuxerViewController ()<XXFileDecodeViewDelegate>
 {
     XXFileDecodeView   *_beautyMenuView;
 }
 @end
 
-@implementation XXFFmpegViewController
+@implementation XXFFmpegRemuxerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

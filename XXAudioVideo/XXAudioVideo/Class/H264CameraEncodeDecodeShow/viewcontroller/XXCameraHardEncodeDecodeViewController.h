@@ -1,5 +1,5 @@
 //
-//  XXCameraViewController.h
+//  XXCameraHardEncodeDecodeViewController.h
 //  XXCamara
 //
 //  Created by tomxiang on 20/10/2016.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface XXCameraViewController : UIViewController
+@interface XXCameraHardEncodeDecodeViewController : UIViewController
 
 @end

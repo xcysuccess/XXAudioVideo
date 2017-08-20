@@ -23,10 +23,15 @@ extern "C" {
 #import "XXFileDecodeView.h"
 #import "Masonry.h"
 #import "XXManagerCore.h"
+#import "AAPLEAGLLayer.h"
+#include "pthread.h"
+#import "OpenGLView20.h"
 
-@interface XXFFmpegDecoderViewController ()<XXFileDecodeViewDelegate>
+@interface XXFFmpegDecoderViewController ()<XXFileDecodeViewDelegate,XXFFmpegDecoderImplDelegate>
 {
     XXFileDecodeView   *_beautyMenuView;
+    OpenGLView20 *_openGLView;
+
 }
 @end
 
@@ -49,6 +54,10 @@ extern "C" {
         make.width.bottom.equalTo(self.view);
         make.height.mas_equalTo(100);
     }];
+    
+    _openGLView = [[OpenGLView20 alloc] initWithFrame:CGRectMake(20, 20, self.view.frame.size.width - 40, self.view.frame.size.height- 140)];
+    _openGLView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:_openGLView];
 }
 
 
@@ -56,6 +65,7 @@ extern "C" {
 - (void)startDecodeButtonClick{
 //    sintel.mov
     NSString *moveString = [[NSBundle mainBundle] pathForResource:@"sintel" ofType:@"mov"];
+    [XXManagerCore sharedInstance].decoder.delegate = self;
     [[XXManagerCore sharedInstance].decoder decoderFile:moveString];
 }
 
@@ -67,4 +77,12 @@ extern "C" {
     }];
 }
 
+#pragma mark -  H264解码回调  H264HwDecoderImplDelegate delegare
+ - (void)setVideoSize:(GLuint)width height:(GLuint)height{
+     [_openGLView setVideoSize:width height:height];
+
+ }
+ - (void)displayYUV420pData:(void *)data width:(NSInteger)w height:(NSInteger)h{
+     [_openGLView displayYUV420pData:data width:w height:h];
+ }
 @end
